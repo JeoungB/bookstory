@@ -1,0 +1,28 @@
+.layout {
+    width: 100%;
+}
+
+.user_state {
+    width: 150px;
+    padding: 10px;
+    position: relative;
+    top: 10px;
+    float: right;
+}
+
+.user_state-login {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+}
+
+.user_state-login li {
+    cursor: pointer;
+}
+
+.user_state-login span {
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: rgb(219, 182, 164);
+}

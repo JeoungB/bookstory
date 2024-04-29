@@ -3,7 +3,7 @@ import axios from "axios";
 const kakaoApi = axios.create({
     baseURL : "https://dapi.kakao.com",
     headers : {
-        Authorization : "KakaoAK 40dc65b056b30eb5353795459126521b"
+        Authorization : `KakaoAK ${process.env.REACT_APP_KAKAO_API_KEY}`
     }
 });
 
