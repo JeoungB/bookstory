@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { login, logout, currentUser } from "../firebase";
+import React, { useState } from "react";
+import { login } from "../firebase";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../store";
+import "../css/login.css";
 
 const Login = () => {
 
@@ -11,29 +12,38 @@ const Login = () => {
 
     const handleLogin = () => {
 
-        if(!email || !password) {
+        if (!email || !password) {
             alert("빈칸을 모두 입력해 주세요");
             return 0;
         }
 
-        if(email && password) {
+        if (email && password) {
             login(email, password).then((result) => {
                 console.log("로그인", result._tokenResponse.refreshToken);
                 dispatch(loginUser(true));
-            }).catch((error) => alert("이메일 및 패스워드가 다릅니다"));
+            }).catch((error) => alert("이메일 및 패스워드가 틀림니다"));
         }
     };
 
-    return(
+    return (
         <div className="login">
-            로그인 하기
-            <input type="text" id="email" placeholder="이메일" onChange={(e) => setEmail(e.target.value)}></input>
-            <input type="password" id="password" placeholder="비밀번호" onChange={(e) => setPassword(e.target.value)}></input>
-            <button className="submit" onClick={() => {handleLogin()}}>로그인</button>
 
-            <button onClick={() => {currentUser()}}>test</button>
+            <div className="prev">&lt; Back</div>
 
-            <button onClick={() => {logout()}}>로그아웃</button>
+            <div className="box_point">
+                <div className="line"></div>
+            </div>
+            <h1>𝑩𝒐𝒐𝒌 𝑺𝒕𝒐𝒓𝒚</h1>
+            <div className="input_box email">
+                <input type="text" id="email" required onChange={(e) => setEmail(e.target.value)}></input>
+                <label className="label_email" for="email">이메일</label>
+            </div>
+
+            <div className="input_box password">
+                <input type="password" id="password" required onChange={(e) => setPassword(e.target.value)}></input>
+                <label className="label_password" for="password">비밀번호</label>
+            </div>
+            <button className="submit" onClick={() => { handleLogin() }}>로그인</button>
         </div>
     )
 }

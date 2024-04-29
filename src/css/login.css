@@ -1,4 +1,4 @@
-.singup {
+.login {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -14,7 +14,7 @@
     overflow: hidden;
 }
 
-.singup .box_point {
+.login .box_point {
     position: absolute;
     right: 0;
     width: 40px;
@@ -24,7 +24,7 @@
     overflow: hidden;
 }
 
-.singup .box_point .line {
+.login .box_point .line {
     width: 70px;
     height: 24px;
     background-color: rgba(255, 255, 255, 0.11);
@@ -36,7 +36,7 @@
     border: 1px solid rgba(224, 224, 224, 0.137);
 }
 
-.singup h1 {
+.login h1 {
     position: relative;
     top: 20px;
     font-size: 30px;
@@ -45,13 +45,13 @@
     color: rgba(255, 193, 105, 0.719);
 }
 
-.singup .input_box {
+.login .input_box {
     width: 70%;
     height: 50px;
     margin-bottom: 20px;
 }
 
-.singup .input_box input {
+.login .input_box input {
     position: relative;
     background-color: transparent;
     outline: none;
@@ -62,7 +62,7 @@
     padding-left: 10px;
 }
 
-.singup label {
+.login label {
     position: relative;
     top: -35px;
     left: 10px;
@@ -76,27 +76,6 @@ input:valid+ label,
 input:disabled+ label {
     top: -52px;
     font-size: 10px;
-}
-
-.singup .password_check {
-    position: relative;
-    left: -5%;
-    width: 60%;
-}
-
-.singup .password_button-check {
-    position: relative;
-    top: -60px;
-    left: 109%;
-    width: 30px;
-    height: 30px;
-    border: 1px solid gray;
-    border-radius: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    color: gray;
 }
 
 button {
