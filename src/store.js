@@ -4,7 +4,7 @@ import localStorage from 'redux-persist/es/storage';
 
 let user = createSlice({
     name : 'user',
-    initialState : false,
+    initialState : "",
     reducers : {
         loginUser(state, action) {
             state = action.payload;

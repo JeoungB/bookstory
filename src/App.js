@@ -1,54 +1,23 @@
 import "./css/reset.css";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Routes, Route } from 'react-router-dom';
-import kakaoSearch from "./api/axios";
 import { database } from './firebase';
-import { collection, addDoc, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
 import Home from './Components/Home';
 import Main from './Components/Main';
 import Layout from './Components/Layout';
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
+import BookSearch from "./Components/BookSearch";
 
-function App() {
 
-  const [books, setBooks] = useState([]);
+// 이미지 출저.
+// <a href="https://www.flaticon.com/kr/free-icons/" title="별 아이콘">별 아이콘  제작자: rizky adhitya pradana - Flaticon</a>
 
-  // useEffect(() => {
-  //   getBooks();
-  // }, []);
+function App() { 
 
-  // const getBooks = async () => {
-  //   try {
-  //     const params = {
-  //       query : "블루",
-  //       size : 10,
-  //       target : "title"
-  //     };
-  //     const result = await kakaoSearch(params);
-  //     setBooks(result.data.documents);
-
-  //     console.log(result);
-  //   } catch(error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // 유저 생성
-  const user = async () => {
-    try {
-      const docRef = await addDoc(collection(database, "users"), {
-        name: "J",
-        id : Date.now()
-      });
-      console.log("생성", docRef);
-    } catch(error) {
-      console.log(error);
-    }
-  }
-
-  // 유저 가져오기
-  const getUsers = async () => {
+  // 모든 유저 정보 가져오기
+  const getUser = async () => {
     try{
       const users = await getDocs(collection(database, "users"));
       users.forEach((user) => {
@@ -94,19 +63,11 @@ function App() {
   return (
     <div className="App">
 
-    {/* {
-      books.map((books) => {
-        return <div className='contents-container' key={books.id}>
-          <p>{books.title}</p>
-          <img src={books.thumbnail} alt='책 이미지' />
-        </div>
-      })
-    } */}
-
     <Routes>
       <Route path='/' element={<Layout />}>
       <Route index element={<Main />} />
       <Route path='/Home' element={<Home />} />
+      <Route path="/booksearch" element={<BookSearch />}/>
       </Route>
       <Route path="/login" element={<Login />}/>
       <Route path="/signup" element={<Signup />}/>

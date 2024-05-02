@@ -81,13 +81,15 @@ const Singup = () => {
         }
 
         await singup(email, password).then((user) => {
-            console.log(user);
             addDoc(collection(database, "users"), {
                 id: Date.now(),
                 name: name.trim(),
                 email: email.trim(),
-                password: PASSWORD_SHA256
+                password: PASSWORD_SHA256,
+                likeBook : [],
             });
+            
+            alert("가입이 완료되었습니다");
         }).catch((error) => {
             alert("중복된 이메일 입니다.");
             document.getElementById('email').classList.add('input_check');
@@ -117,7 +119,7 @@ const Singup = () => {
 
         if (password === checkPassword) {
             setPasswordCheck(true);
-            document.querySelector(".password_button-check").classList.add('password_check-true');
+            document.getElementById('check-button').classList.add('password_check-true');
             document.getElementById('password').setAttribute('disabled', true);
             document.getElementById('password_check').setAttribute('disabled', true);
         };
@@ -189,25 +191,27 @@ const Singup = () => {
             <h1>𝑩𝒐𝒐𝒌 𝑺𝒕𝒐𝒓𝒚</h1>
             <div className="input_box name">
                 <input type="text" id="name" required onChange={(e) => setName(e.target.value)} />
-                <label className="label_name" for="name">이름</label>
+                <label className="label_name" htmlFor="name">이름</label>
             </div>
 
             <div className="input_box email">
                 <input type="text" id="email" required onChange={(e) => setEmail(e.target.value)} />
-                <label className="label_email" for="email">이메일</label>
+                <label className="label_email" htmlFor="email">이메일</label>
             </div>
 
             <div className="input_box password">
                 <input type="password" id="password" required onChange={(e) => setPassword(e.target.value)} />
-                <label className="label_password" for="password">비밀번호</label>
+                <label className="label_password" htmlFor="password">비밀번호</label>
             </div>
 
             <div className="input_box password_check">
                 <input type="password" id="password_check" required onChange={(e) => setCheckPassword(e.target.value)} />
-                <label className="label_password-check" for="password">비밀번호 확인</label>
-                <div className="password_button-check" onClick={() => { passwordCheckHandler() }}>V</div>
+                <label className="label_password-check" htmlFor="password">비밀번호 확인</label>
+                <div className="password_button-check" id="check-button" onClick={() => { passwordCheckHandler() }}>V</div>
             </div>
-            <button type="submit" onClick={() => { handleSubmit() }}>회원가입</button>
+            <button type="submit" onClick={(e) => { 
+                e.preventDefault();
+                handleSubmit() }}>회원가입</button>
         </div>
     )
 };

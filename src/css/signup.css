@@ -115,6 +115,6 @@ button {
 }
 
 .password_check-true {
-    border: 1px solid green;
-    color: green;
+    border: 1px solid green !important;
+    color: green !important;
 }
