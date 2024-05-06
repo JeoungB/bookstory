@@ -3,15 +3,17 @@ import { login } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store";
 import "../css/login.css";
+import { useNavigate } from "react-router-dom";
+import { collection, query, getDocs, where } from "firebase/firestore";
+import { database } from "../firebase";
 
 const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user);
-
-    console.log(user)
+    const userEmail = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     const handleLogin = () => {
 
@@ -20,18 +22,31 @@ const Login = () => {
             return 0;
         }
 
-        if(email === user) {
+        if(email === userEmail) {
             alert("이미 로그인되어있는 계정입니다");
             return 0;
         }
 
         if (email && password) {
             login(email, password).then((result) => {
-                console.log("로그인", result._tokenResponse.refreshToken);
                 dispatch(loginUser(result.user.email));
+                getUser();
             }).catch((error) => alert("이메일 및 패스워드가 틀림니다"));
         }
     };
+
+    const getUser = async () => {
+        try{
+          const user = await query(collection(database, "users"), where("email", "==", `${email}`));
+          const emailUser = await getDocs(user);
+          emailUser.forEach((user) => {
+            alert(`환영합니다 ${user.data().name}님`);
+          });
+          navigate('/');
+        } catch(error) {
+          console.log(error);
+        }
+      }
 
     return (
         <div className="login">

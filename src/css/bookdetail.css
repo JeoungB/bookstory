@@ -1,0 +1,56 @@
+.book_detail {
+    position: absolute;
+    left: 240px;
+    width: calc(100% - 240px);
+    height: 100%;
+}
+
+.book_detail-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 500px;
+    display: flex; 
+    border-radius: 10px;
+    background-color: white;
+}
+
+.book_detail-content h1 {
+    position: relative;
+    font-size: 30px;
+    font-weight: 300;
+    margin: 20px 0px 50px 30px;
+}
+
+.book_detail-content p {
+    position: absolute;
+    top: 80px;
+    left: 230px;
+    margin: 20px 20px 0px 20px;
+    line-height: 25px;
+}
+
+.book_detail-content .content-img {
+    position: relative;
+    width: 200px;
+    margin-left: 30px;
+    background-color: antiquewhite;
+}
+
+.book_detail-content .content-img img {
+    position: relative;
+    width: 100%;
+    background-size: contain;
+    
+}
+
+.book_detail-content .heart-false {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}

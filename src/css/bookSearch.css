@@ -2,29 +2,49 @@
     position: absolute;
     top: 35%;
     left: 50%;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .search-form {
     position: absolute;
+    width: 400px;
+    height: 60px;
     top : 100px;
-    left: 45%;
-    padding: 5px;
-    min-width: 500px;
+    left: 50%;
+    transform: translate(-11%, 0);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid rgba(209, 209, 209, 0.829);
+    box-shadow: inset 1px 1px 5px 1px rgb(192, 191, 191);
+    background-color: white;
 }
 
 .search-form input {
-    border: 1px solid rgb(116, 114, 114);
     outline: none;
     background-color: transparent;
     color: gray;
-    width: 300px;
-    height: 50px;
-    border-radius: 10px;
+    width: 80%;
+    height: 100%;
+    border: none;
+    padding-left: 20px;
 }
 
 .search-form button {
-    width: 50px;
-    height: 50px;
+    position: relative;
+    top: -5px;
+    width: 20%;
+    height: 100%;
+    border: none;
+    cursor: default;
+}
+
+.search-form button img {
+    position: relative;
+    width: 50%;
+    cursor: pointer;
 }
 
 .contents {
@@ -47,6 +67,7 @@
     padding: 40px 40px 60px 40px;
     display: flex;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .contents .contents-container #book {
@@ -73,6 +94,26 @@
     cursor: pointer;
 }
 
+.contents .contents-container .detail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.87);
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(141, 141, 141);
+    display: flex;
+    justify-content: center;
+}
+
+.contents .contents-container .detail p {
+    position: relative;
+    top: 30%;
+    text-align: center;
+}
+
 .book-animation {
     position: relative;
     top: 500px;
@@ -96,9 +137,20 @@
     background-color: blue;
 }
 
+.book-animation li .slide-item {
+    width: 100%;
+    height: 100%;
+}
+
+.book-animation li .slide-item img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .animation {
     animation: move;
-    animation-duration: 4s;
+    animation-duration: 20s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
@@ -109,7 +161,7 @@
     }
 
     100% {
-        transform: translateX(-11%);
+        transform: translateX(-33.4%);
     }
 }
 

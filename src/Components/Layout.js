@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import { database } from "../firebase";
 import { collection, getDocs, where, query } from "firebase/firestore";
 import { useSelector } from "react-redux";
+import userIcon from "../imgs/user-icon.png";
 
 const Layout = () => {
 
@@ -33,8 +34,10 @@ const Layout = () => {
         <div className="layout">
             <div className="user_state">
             {
-                userName ? (
-                    <div>{userName}님</div>
+                userEmail ? (
+                    <div className="user">
+                      <img src={userIcon} alt="유저 아이콘" />
+                      </div>
                 ) : (
                     <ul className="user_state-login">
                     <li onClick={() => navigate('/login')}>로그인</li>
