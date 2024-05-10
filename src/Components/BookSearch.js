@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { database } from "../firebase";
 import { addLikeBook, removeLikeBook } from "../store";
-import { likebook } from "../firebase";
+import { getBookss } from "../firebase";
 import { collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 
 const BookSearch = () => {
@@ -50,41 +50,41 @@ const BookSearch = () => {
     }
   };
 
-  const getBookss = async (state, click, bookData) => {
-    try{
-      const books = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
-      const emailUser = await getDocs(books);
-      emailUser.forEach((user) => {
-        const getDatas = user.data().likeBook;
-        const data = doc(database, "users", user.id);
+  // const getBookss = async (state, click, bookData) => {
+  //   try{
+  //     const books = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
+  //     const emailUser = await getDocs(books);
+  //     emailUser.forEach((user) => {
+  //       const getDatas = user.data().likeBook;
+  //       const data = doc(database, "users", user.id);
 
-        console.log("click", click);
+  //       console.log("click", click);
 
-        const sameData = getDatas.find((getData) => {
-          return getData.isbn === click;
-        })
+  //       const sameData = getDatas.find((getData) => {
+  //         return getData.isbn === click;
+  //       })
 
-        console.log("test", sameData);
+  //       console.log("test", sameData);
 
-        if(state === true) {
-          updateDoc(data, {
-            likeBook: arrayUnion(bookData)
-          });
-          dispatch(addLikeBook(click))
-        }
+  //       if(state === true) {
+  //         updateDoc(data, {
+  //           likeBook: arrayUnion(bookData)
+  //         });
+  //         dispatch(addLikeBook(click))
+  //       }
 
-        if(state === false) {
-          updateDoc(data, {
-            likeBook : arrayRemove(sameData)
-          });
-          dispatch(removeLikeBook(click))
-        }
+  //       if(state === false) {
+  //         updateDoc(data, {
+  //           likeBook : arrayRemove(sameData)
+  //         });
+  //         dispatch(removeLikeBook(click))
+  //       }
 
-      })
-    } catch (error) {
-      console.log("가져오기 실패", error);
-    }
-  }
+  //     })
+  //   } catch (error) {
+  //     console.log("가져오기 실패", error);
+  //   }
+  // }
 
   const getBooks = async () => {
     try {
@@ -204,7 +204,8 @@ const BookSearch = () => {
                       src={heartTrue}
                       alt="좋아요 아이콘"
                       onClick={() => {
-                        getBookss(false ,books.isbn);
+                        getBookss(false ,books.isbn, books, userEmail);
+                        dispatch(removeLikeBook(books.isbn))
                       }}
                     />
                     ) : (
@@ -214,7 +215,8 @@ const BookSearch = () => {
                       src={heartFalse}
                       alt="좋아요 아이콘"
                       onClick={() => {
-                        getBookss(true, books.isbn, books);
+                        getBookss(true, books.isbn, books, userEmail);
+                        dispatch(addLikeBook(books.isbn))
                       }}
                     />
                     )

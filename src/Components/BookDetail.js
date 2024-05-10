@@ -8,7 +8,7 @@ import { collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRem
 import { useDispatch, useSelector } from "react-redux";
 import { database } from "../firebase";
 import { addLikeBook, removeLikeBook } from "../store";
-import { likebook } from "../firebase";
+import { getBookss } from "../firebase";
 
 const BookDetail = () => {
 
@@ -41,6 +41,7 @@ const BookDetail = () => {
         }
     };
 
+    // 이 코드 밖에 선택때도 적용 되도록 수정
     const getKeyUser = async () => {
         try {
             const user = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
@@ -49,7 +50,6 @@ const BookDetail = () => {
                 for (let i = 0; i < user.data().likeBook.length; i++) {
                     dispatch(addLikeBook(user.data().likeBook[i].isbn));
                 }
-
             })
 
         } catch (error) {
@@ -73,12 +73,12 @@ const BookDetail = () => {
                             {
                                 likeBooks.includes(book[0].isbn) ? (
                                     <img className="heart_false" src={heartTrue} alt="좋아요 아이콘" onClick={() => {
-                                        likebook(true, userEmail, book);
+                                        getBookss(false ,book[0].isbn, book[0], userEmail);
                                         dispatch(removeLikeBook(book[0].isbn))
                                     }} />
                                 ) : (
                                     <img className="heart_false" src={heartFalse} alt="좋아요 아이콘" onClick={() => {
-                                        likebook(false, userEmail, book);
+                                        getBookss(true, book[0].isbn, book[0], userEmail);
                                         dispatch(addLikeBook(book[0].isbn))
                                     }} />
                                 )

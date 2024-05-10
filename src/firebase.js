@@ -51,28 +51,37 @@ export const currentUser = () => {
   })
 };
 
-export const likebook = async (state, userEmail, book) => {
-  try {
-    const user = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
-    const emailUser = await getDocs(user);
+// 함수 이름 바꾸자
+export const getBookss = async (state, click, bookData, userEmail) => {
+  try{
+    const books = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
+    const emailUser = await getDocs(books);
     emailUser.forEach((user) => {
+      const getDatas = user.data().likeBook;
       const data = doc(database, "users", user.id);
 
-      console.log(book)
+      console.log("click", click);
 
-      if (state === false) {
+      const sameData = getDatas.find((getData) => {
+        return getData.isbn === click;
+      })
+
+      console.log("test", sameData);
+
+      if(state === true) {
         updateDoc(data, {
-          likeBook: arrayUnion(...book)
+          likeBook: arrayUnion(bookData)
         });
       }
 
-      if (state === true) {
+      if(state === false) {
         updateDoc(data, {
-          likeBook: arrayRemove(...book)
+          likeBook : arrayRemove(sameData)
         });
       }
-    });
+
+    })
   } catch (error) {
-    console.log(error);
+    console.log("가져오기 실패", error);
   }
-};
+}
