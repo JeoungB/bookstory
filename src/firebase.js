@@ -8,7 +8,8 @@ import {
   signOut,
   onAuthStateChanged
 } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { collection, getDocs, getFirestore, query, where, doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { useSelector } from "react-redux";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -38,7 +39,9 @@ export const login = (email, password) => {
 // 로그아웃
 export const logout = () => {
   return signOut(auth)
-    .then(() => alert("로그아웃 되었습니다."))
+    .then(() => {
+      alert("로그아웃 되었습니다.");
+    })
     .catch((error) => console.log(error));
 };
 
@@ -46,4 +49,30 @@ export const currentUser = () => {
   onAuthStateChanged(auth, (user) => {
     console.log(user);
   })
+};
+
+export const likebook = async (state, userEmail, book) => {
+  try {
+    const user = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
+    const emailUser = await getDocs(user);
+    emailUser.forEach((user) => {
+      const data = doc(database, "users", user.id);
+
+      console.log(book)
+
+      if (state === false) {
+        updateDoc(data, {
+          likeBook: arrayUnion(...book)
+        });
+      }
+
+      if (state === true) {
+        updateDoc(data, {
+          likeBook: arrayRemove(...book)
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

@@ -10,7 +10,42 @@ let user = createSlice({
             state = action.payload;
             return state;
         },
-        logoutUser(state, action) {
+        logoutUser(state) {
+            state = "";
+            return state;
+        }
+    }
+});
+
+let likeBook = createSlice({
+    name : 'likeBook',
+    initialState : [],
+    reducers : {
+        addLikeBook(state, action) {
+            state = state.concat(action.payload);
+            const set = new Set(state);
+            state = [...set];
+            return state;
+        },
+        removeLikeBook(state, action) {
+            const newState = state.filter((state) => {
+                return state !== action.payload;
+            })
+            state = [...newState];
+            return state;
+        },
+        logoutLikeBook(state) {
+            state = [];
+            return state;
+        },
+    }
+});
+
+let test = createSlice({
+    name : 'test',
+    initialState : [],
+    reducers : {
+        testt(state, action) {
             state = action.payload;
             return state;
         }
@@ -18,15 +53,19 @@ let user = createSlice({
 });
 
 export let { loginUser,  logoutUser } = user.actions;
+export let { addLikeBook, removeLikeBook, logoutLikeBook } = likeBook.actions;
+export let { testt } = test.actions;
 
 const reducers = combineReducers({
     user : user.reducer,
+    likeBook : likeBook.reducer,
+    test : test.reducer
 });
 
 const persistConfig = {
     key : 'user',
     storage : localStorage,
-    whitelist : ['user']
+    whitelist : ['user', 'likeBook', 'test']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers);

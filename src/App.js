@@ -13,7 +13,7 @@ import BookDetail from "./Components/BookDetail";
 
 
 // 이미지 출저.
-// <a href="https://www.flaticon.com/kr/free-icons/" title="별 아이콘">별 아이콘  제작자: rizky adhitya pradana - Flaticon</a>
+// <a href="https://www.flaticon.com/kr/free-icons/" > 아이콘  제작자: rizky adhitya pradana - Flaticon</a>
 
 function App() { 
 
@@ -36,7 +36,7 @@ function App() {
       const user = await query(collection(database, "users"), where("name", "==", "J"));
       const emailUser = await getDocs(user);
       emailUser.forEach((user) => {
-        console.log(user.data());
+        console.log("나에요", user.data());
       })
     } catch(error) {
       console.log(error);

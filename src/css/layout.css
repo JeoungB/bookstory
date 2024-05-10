@@ -14,6 +14,8 @@
     display: flex;
     justify-content: space-between;
     font-size: 16px;
+    position: relative;
+    z-index: 5;
 }
 
 .user_state-login li {
@@ -33,6 +35,7 @@
     width: 50px;
     height: 50px;
     cursor: pointer;
+    z-index: 5;
 }
 
 .user img {

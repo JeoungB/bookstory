@@ -15,13 +15,19 @@ import book7 from "../imgs/book7.jfif";
 import book8 from "../imgs/book8.jfif";
 import book9 from "../imgs/book9.jfif";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { database } from "../firebase";
+import { addLikeBook, removeLikeBook } from "../store";
+import { likebook } from "../firebase";
+import { collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 
 const BookSearch = () => {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-
-  console.log(books)
+  const dispatch = useDispatch();
+  const likeBooks = useSelector((state) => state.likeBook);
+  const userEmail = useSelector((state) => state.user);
 
   useEffect(() => {
     makeCloneList();
@@ -43,6 +49,42 @@ const BookSearch = () => {
       getBooks();
     }
   };
+
+  const getBookss = async (state, click, bookData) => {
+    try{
+      const books = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
+      const emailUser = await getDocs(books);
+      emailUser.forEach((user) => {
+        const getDatas = user.data().likeBook;
+        const data = doc(database, "users", user.id);
+
+        console.log("click", click);
+
+        const sameData = getDatas.find((getData) => {
+          return getData.isbn === click;
+        })
+
+        console.log("test", sameData);
+
+        if(state === true) {
+          updateDoc(data, {
+            likeBook: arrayUnion(bookData)
+          });
+          dispatch(addLikeBook(click))
+        }
+
+        if(state === false) {
+          updateDoc(data, {
+            likeBook : arrayRemove(sameData)
+          });
+          dispatch(removeLikeBook(click))
+        }
+
+      })
+    } catch (error) {
+      console.log("가져오기 실패", error);
+    }
+  }
 
   const getBooks = async () => {
     try {
@@ -154,14 +196,32 @@ const BookSearch = () => {
                   <img id="open-book" src={openBook} alt="책 자세히 보기 아이콘" onClick={() => {
                     navigate(`/bookdetail/${books.title}`);
                   }} />
-                  <img
-                    className="heart false"
-                    id="heart"
-                    src={heartFalse}
-                    alt="좋아요 아이콘"
-                  />
+                  {
+                    likeBooks.includes(books.isbn) ? (
+                      <img
+                      className="heart false"
+                      id="heart"
+                      src={heartTrue}
+                      alt="좋아요 아이콘"
+                      onClick={() => {
+                        getBookss(false ,books.isbn);
+                      }}
+                    />
+                    ) : (
+                      <img
+                      className="heart false"
+                      id="heart"
+                      src={heartFalse}
+                      alt="좋아요 아이콘"
+                      onClick={() => {
+                        getBookss(true, books.isbn, books);
+                      }}
+                    />
+                    )
+                  }
                   <div className="detail">
                     <p>{books.title}</p>
+                    <p>{books.authors}</p>
                   </div>
                 </div>
               );

@@ -32,24 +32,36 @@
     line-height: 25px;
 }
 
-.book_detail-content .content-img {
+.book_detail-content .content_img {
     position: relative;
     width: 200px;
     margin-left: 30px;
     background-color: antiquewhite;
 }
 
-.book_detail-content .content-img img {
+.book_detail-content .content_img img {
     position: relative;
     width: 100%;
     background-size: contain;
     
 }
 
-.book_detail-content .heart-false {
+.book_detail-content .authors {
+    position: relative;
+    left: 30px;
+    top: 20px;
+}
+
+.book_detail-content .publisher {
+    position: relative;
+    left: 30px;
+    top: 40px;
+}
+
+.book_detail-content .heart_false {
     position: absolute;
     bottom: 10%;
-    left: 50%;
+    right: 100px;
     width: 30px;
     height: 30px;
     cursor: pointer;

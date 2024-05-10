@@ -106,12 +106,14 @@
     color: rgb(141, 141, 141);
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    display: none;
 }
 
 .contents .contents-container .detail p {
     position: relative;
-    top: 30%;
     text-align: center;
+    margin-bottom: 30px;
 }
 
 .book-animation {
