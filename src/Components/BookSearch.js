@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import kakaoSearch from "../api/axios";
 import "../css/bookSearch.css";
 import openBook from "../imgs/open-book.png";
@@ -17,75 +17,69 @@ import book9 from "../imgs/book9.jfif";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { database } from "../firebase";
-import { addLikeBook, removeLikeBook } from "../store";
-import { getBookss } from "../firebase";
-import { collection, query, where, getDocs, updateDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
+import { addLikeBook, removeLikeBook, searchBookData } from "../store";
+import { likeBookHandler } from "../firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+// 책 등장할 때 밑에서 위로 스르륵 보여지게 만들기
+// book search 클릭해서 이동 시 리덕스에 검색한 책 정보 데이터 초기화
 
 const BookSearch = () => {
-  const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const likeBooks = useSelector((state) => state.likeBook);
   const userEmail = useSelector((state) => state.user);
+  const searchBook = useSelector((state) => state.searchBook);
 
   useEffect(() => {
-    makeCloneList();
+    if (searchBook.length === 0) {
+      makeCloneList();
+    }
   }, []);
 
+  useEffect(() => {
+    likeBookRedux();
+  }, []);
+
+  // 좋아요 목록 가져오기 fireBase 연동
+  const likeBookRedux = async () => {
+    try {
+      const user = await query(
+        collection(database, "users"),
+        where("email", "==", `${userEmail}`)
+      );
+      const emailUser = await getDocs(user);
+      emailUser.forEach((user) => {
+        for (let i = 0; i < user.data().likeBook.length; i++) {
+          dispatch(addLikeBook(user.data().likeBook[i].isbn));
+        }
+      });
+    } catch (error) {
+      console.log("로그인한 유저의 좋아요 책 정보 가져오기 실패", error);
+    }
+  };
+
+  // 슬라이드 클론 함수
   const makeCloneList = () => {
-    let slide = document.querySelector('.book-slider');
-    let slides = document.querySelectorAll('.book-slider li');
+    let slide = document.querySelector(".book-slider");
+    let slides = document.querySelectorAll(".book-slider li");
 
     for (let i = 0; i < 9; i++) {
       let clone = slides[i].cloneNode(true);
-      clone.classList.add('clone');
+      clone.classList.add("clone");
       slide.appendChild(clone);
     }
-  }
+  };
 
+  // 검색 엔터 함수
   const enterKey = (e) => {
     if (e.keyCode === 13) {
       getBooks();
     }
   };
 
-  // const getBookss = async (state, click, bookData) => {
-  //   try{
-  //     const books = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
-  //     const emailUser = await getDocs(books);
-  //     emailUser.forEach((user) => {
-  //       const getDatas = user.data().likeBook;
-  //       const data = doc(database, "users", user.id);
-
-  //       console.log("click", click);
-
-  //       const sameData = getDatas.find((getData) => {
-  //         return getData.isbn === click;
-  //       })
-
-  //       console.log("test", sameData);
-
-  //       if(state === true) {
-  //         updateDoc(data, {
-  //           likeBook: arrayUnion(bookData)
-  //         });
-  //         dispatch(addLikeBook(click))
-  //       }
-
-  //       if(state === false) {
-  //         updateDoc(data, {
-  //           likeBook : arrayRemove(sameData)
-  //         });
-  //         dispatch(removeLikeBook(click))
-  //       }
-
-  //     })
-  //   } catch (error) {
-  //     console.log("가져오기 실패", error);
-  //   }
-  // }
-
+  // 책 검색 함수 30개 ( 카카오 API )
   const getBooks = async () => {
     try {
       const params = {
@@ -98,9 +92,18 @@ const BookSearch = () => {
       const searchData = searchDatas.filter((searchDatas) => {
         return searchDatas.thumbnail !== "";
       });
-      setBooks(searchData);
+      dispatch(searchBookData(searchData));
     } catch (error) {
-      console.log(error);
+      console.log("검색한 책 정보 가져오기 실패", error);
+    }
+  };
+
+  // 최신 책 가져오기 9개 ( 카카오 API )
+  const getBookRecency = () => {
+    try {
+      const params = {};
+    } catch (error) {
+      console.log("최신 책 정보 가져오기 실패", error);
     }
   };
 
@@ -116,7 +119,6 @@ const BookSearch = () => {
             setSearch(e.target.value);
           }}
           onKeyDown={(e) => enterKey(e)}
-          autoComplete="off"
         ></input>
 
         <button
@@ -130,107 +132,106 @@ const BookSearch = () => {
         </button>
       </form>
 
-      {
-        Array.isArray(books) && books.length === 0 ? (
-          <div>
-            <h2>원하는책을 검색하고 공유해보세요</h2>
-            <div className="book-animation">
-              <div className="color-left"></div>
-              <ul className="book-slider animation">
-                <li>
-                  <div className="slide-item">
-                    <img src={book3} alt="책 이미지" />
-                  </div>
-                </li>
-                <li>
-                  <div className="slide-item">
-                    <img src={book2} alt="책 이미지" />
-                  </div>
-                </li>
-                <li>
-                  <div className="slide-item">
-                    <img src={book1} alt="책 이미지" />
-                  </div>
-                </li>
-                <li>
-                  <div className="slide-item">
-                    <img src={book4} alt="책 이미지" />
-                  </div>
-                </li>
-                <li>
-                  <div className="slide-item">
-                    <img src={book5} alt="책 이미지" />
-                  </div>
-                </li>
-                <li>
-                  <div className="slide-item">
-                    <img src={book6} alt="책 이미지" />
-                  </div>
-                </li>
-                <li>
-                  <div className="slide-item">
-                    <img src={book7} alt="책 이미지" />
-                  </div>
-                </li>
-                <li>
-                  <div className="slide-item">
-                    <img src={book8} alt="책 이미지" />
-                  </div>
-                </li>
-                <li>
-                  <div className="slide-item">
-                    <img src={book9} alt="책 이미지" />
-                  </div>
-                </li>
-              </ul>
-              <div className="color-right"></div>
-            </div>
-          </div>
-        ) : (
-          <div className="contents">
-            {books.map((books) => {
-              return (
-                <div className="contents-container" key={books.isbn}>
-                  
-                  <img id="book" src={books.thumbnail} alt="책 이미지" />
-                  <img id="open-book" src={openBook} alt="책 자세히 보기 아이콘" onClick={() => {
-                    navigate(`/bookdetail/${books.title}`);
-                  }} />
-                  {
-                    likeBooks.includes(books.isbn) ? (
-                      <img
-                      className="heart false"
-                      id="heart"
-                      src={heartTrue}
-                      alt="좋아요 아이콘"
-                      onClick={() => {
-                        getBookss(false ,books.isbn, books, userEmail);
-                        dispatch(removeLikeBook(books.isbn))
-                      }}
-                    />
-                    ) : (
-                      <img
-                      className="heart false"
-                      id="heart"
-                      src={heartFalse}
-                      alt="좋아요 아이콘"
-                      onClick={() => {
-                        getBookss(true, books.isbn, books, userEmail);
-                        dispatch(addLikeBook(books.isbn))
-                      }}
-                    />
-                    )
-                  }
-                  <div className="detail">
-                    <p>{books.title}</p>
-                    <p>{books.authors}</p>
-                  </div>
+      {searchBook.length !== 0 ? (
+        <div className="contents">
+          {searchBook.map((books) => {
+            return (
+              <div className="contents-container" key={books.isbn}>
+                <div className="pointer">
+                  <div className="line"></div>
                 </div>
-              );
-            })}
+                <img id="book" src={books.thumbnail} alt="책 이미지" />
+                <img
+                  id="open-book"
+                  src={openBook}
+                  alt="책 자세히 보기 아이콘"
+                  onClick={() => {
+                    navigate(`/bookdetail/${books.title}`);
+                  }}
+                />
+                {likeBooks.includes(books.isbn) ? (
+                  <img
+                    className="heart false"
+                    id="heart"
+                    src={heartTrue}
+                    alt="좋아요 아이콘"
+                    onClick={() => {
+                      likeBookHandler(false, books.isbn, books, userEmail);
+                      dispatch(removeLikeBook(books.isbn));
+                    }}
+                  />
+                ) : (
+                  <img
+                    className="heart false"
+                    id="heart"
+                    src={heartFalse}
+                    alt="좋아요 아이콘"
+                    onClick={() => {
+                      likeBookHandler(true, books.isbn, books, userEmail);
+                      dispatch(addLikeBook(books.isbn));
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div>
+          <h2>원하는책을 검색하고 공유해보세요</h2>
+          <div className="book-animation">
+            <div className="color-left"></div>
+            <ul className="book-slider move-slide_animation">
+              <li>
+                <div className="slide-item">
+                  <img src={book3} alt="책 이미지" />
+                </div>
+              </li>
+              <li>
+                <div className="slide-item">
+                  <img src={book2} alt="책 이미지" />
+                </div>
+              </li>
+              <li>
+                <div className="slide-item">
+                  <img src={book1} alt="책 이미지" />
+                </div>
+              </li>
+              <li>
+                <div className="slide-item">
+                  <img src={book4} alt="책 이미지" />
+                </div>
+              </li>
+              <li>
+                <div className="slide-item">
+                  <img src={book5} alt="책 이미지" />
+                </div>
+              </li>
+              <li>
+                <div className="slide-item">
+                  <img src={book6} alt="책 이미지" />
+                </div>
+              </li>
+              <li>
+                <div className="slide-item">
+                  <img src={book7} alt="책 이미지" />
+                </div>
+              </li>
+              <li>
+                <div className="slide-item">
+                  <img src={book8} alt="책 이미지" />
+                </div>
+              </li>
+              <li>
+                <div className="slide-item">
+                  <img src={book9} alt="책 이미지" />
+                </div>
+              </li>
+            </ul>
+            <div className="color-right"></div>
           </div>
-        )
-      }
+        </div>
+      )}
     </div>
   );
 };

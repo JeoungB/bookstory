@@ -38,7 +38,9 @@ const Layout = () => {
             {
                 userEmail ? (
                     <div className="user">
-                      <img src={userIcon} alt="유저 아이콘" />
+                      <img src={userIcon} alt="유저 아이콘" onClick={() => {
+                        navigate('/home')
+                      }}/>
                       </div>
                 ) : (
                     <ul className="user_state-login">

@@ -34,6 +34,7 @@
     background-color: rgba(177, 177, 177, 0.466);
 }
 
+/* 사이드 바 접힌 부분 */
 .sidebar .pointer {
     position: absolute;
     top: 0;

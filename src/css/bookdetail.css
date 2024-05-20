@@ -15,15 +15,18 @@
     display: flex; 
     border-radius: 10px;
     background-color: white;
+    box-shadow: 8px 5px 10px 1px rgba(139, 139, 139, 0.507);
 }
 
+/* 책 제목 */
 .book_detail-content h1 {
-    position: relative;
+    position: absolute;
     font-size: 30px;
     font-weight: 300;
     margin: 20px 0px 50px 30px;
 }
 
+/* 책 정보 */
 .book_detail-content p {
     position: absolute;
     top: 80px;
@@ -32,8 +35,10 @@
     line-height: 25px;
 }
 
+/* 책 이미지 */
 .book_detail-content .content_img {
     position: relative;
+    top: 105px;
     width: 200px;
     margin-left: 30px;
     background-color: antiquewhite;
@@ -46,16 +51,25 @@
     
 }
 
+/* 출처, 작가, 링크 */
 .book_detail-content .authors {
     position: relative;
     left: 30px;
-    top: 20px;
+    top: 125px;
 }
 
 .book_detail-content .publisher {
     position: relative;
     left: 30px;
-    top: 40px;
+    top: 145px;
+}
+
+.book_detail-content .book_link {
+    position: relative;
+    left: 80px;
+    top: 130px;
+    text-decoration-line: none;
+    color: rgb(245, 185, 56);
 }
 
 .book_detail-content .heart_false {

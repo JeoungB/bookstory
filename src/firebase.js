@@ -9,7 +9,6 @@ import {
   onAuthStateChanged
 } from "firebase/auth";
 import { collection, getDocs, getFirestore, query, where, doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { useSelector } from "react-redux";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -45,14 +44,15 @@ export const logout = () => {
     .catch((error) => console.log(error));
 };
 
+// 로그인 유저
 export const currentUser = () => {
   onAuthStateChanged(auth, (user) => {
     console.log(user);
   })
 };
 
-// 함수 이름 바꾸자
-export const getBookss = async (state, click, bookData, userEmail) => {
+// 책 좋아요
+export const likeBookHandler = async (state, click, bookData, userEmail) => {
   try{
     const books = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
     const emailUser = await getDocs(books);
@@ -60,13 +60,9 @@ export const getBookss = async (state, click, bookData, userEmail) => {
       const getDatas = user.data().likeBook;
       const data = doc(database, "users", user.id);
 
-      console.log("click", click);
-
       const sameData = getDatas.find((getData) => {
         return getData.isbn === click;
       })
-
-      console.log("test", sameData);
 
       if(state === true) {
         updateDoc(data, {

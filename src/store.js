@@ -2,6 +2,7 @@ import { combineReducers, configureStore, createSlice, getDefaultMiddleware } fr
 import { persistReducer } from "redux-persist";
 import localStorage from 'redux-persist/es/storage';
 
+// 로그인 유저 이메일 상태
 let user = createSlice({
     name : 'user',
     initialState : "",
@@ -17,6 +18,7 @@ let user = createSlice({
     }
 });
 
+// 좋아요한 책 정보 상태 FireBase에서 가져옴
 let likeBook = createSlice({
     name : 'likeBook',
     initialState : [],
@@ -34,6 +36,7 @@ let likeBook = createSlice({
             state = [...newState];
             return state;
         },
+        // 로그아웃 시 상태 초기화
         logoutLikeBook(state) {
             state = [];
             return state;
@@ -41,31 +44,32 @@ let likeBook = createSlice({
     }
 });
 
-let test = createSlice({
-    name : 'test',
+// 검색한 책 정보 유지
+let searchBook = createSlice({
+    name : 'searchBook',
     initialState : [],
     reducers : {
-        testt(state, action) {
+        searchBookData(state, action) {
             state = action.payload;
             return state;
         }
     }
-});
+})
 
 export let { loginUser,  logoutUser } = user.actions;
 export let { addLikeBook, removeLikeBook, logoutLikeBook } = likeBook.actions;
-export let { testt } = test.actions;
+export let { searchBookData } = searchBook.actions;
 
 const reducers = combineReducers({
     user : user.reducer,
     likeBook : likeBook.reducer,
-    test : test.reducer
+    searchBook : searchBook.reducer
 });
 
 const persistConfig = {
     key : 'user',
     storage : localStorage,
-    whitelist : ['user', 'likeBook', 'test']
+    whitelist : ['user', 'likeBook']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers);
