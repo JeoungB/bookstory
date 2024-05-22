@@ -67,7 +67,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Layout />}>
       <Route index element={<Main />} />
-      <Route path='/Home' element={<Home />} />
+      <Route path='/home/:name' element={<Home />} />
       <Route path="/booksearch" element={<BookSearch />}/>
       <Route path="/bookdetail/:title" element={<BookDetail />}/>
       </Route>

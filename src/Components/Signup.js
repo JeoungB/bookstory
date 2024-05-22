@@ -87,6 +87,7 @@ const Singup = () => {
                 email: email.trim(),
                 password: PASSWORD_SHA256,
                 likeBook : [],
+                profileImg : null
             });
             
             alert("가입이 완료되었습니다");

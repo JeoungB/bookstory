@@ -39,7 +39,7 @@ const Layout = () => {
                 userEmail ? (
                     <div className="user">
                       <img src={userIcon} alt="유저 아이콘" onClick={() => {
-                        navigate('/home')
+                        navigate(`/home/${userName}`)
                       }}/>
                       </div>
                 ) : (
