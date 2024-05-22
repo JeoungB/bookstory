@@ -54,22 +54,40 @@ let searchBook = createSlice({
             return state;
         }
     }
-})
+});
+
+// 업로드한 이미지 URL
+let userProfileImg = createSlice({
+    name : 'userProfileImg',
+    initialState : "",
+    reducers : {
+        setProfileImg(state, action) {
+            state = action.payload;
+            return state;
+        },
+        clearProfileImg(state) {
+            state = "";
+            return state;
+        }
+    }
+});
 
 export let { loginUser,  logoutUser } = user.actions;
 export let { addLikeBook, removeLikeBook, logoutLikeBook } = likeBook.actions;
 export let { searchBookData } = searchBook.actions;
+export let { setProfileImg, clearProfileImg } = userProfileImg.actions;
 
 const reducers = combineReducers({
     user : user.reducer,
     likeBook : likeBook.reducer,
-    searchBook : searchBook.reducer
+    searchBook : searchBook.reducer,
+    userProfileImg : userProfileImg.reducer
 });
 
 const persistConfig = {
     key : 'user',
     storage : localStorage,
-    whitelist : ['user', 'likeBook']
+    whitelist : ['user', 'likeBook', 'userProfileImg']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers);

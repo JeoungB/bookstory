@@ -6,7 +6,7 @@ import { database, logout } from "../firebase";
 import { collection, getDocs, where, query } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import userIcon from "../imgs/user-icon.png";
-import { logoutLikeBook, logoutUser } from "../store";
+import { clearProfileImg, logoutLikeBook, logoutUser } from "../store";
 
 const Layout = () => {
 
@@ -52,7 +52,8 @@ const Layout = () => {
             <div onClick={() => {
               dispatch(logoutUser());
               dispatch(logoutLikeBook());
-              logout()
+              dispatch(clearProfileImg());
+              logout();
             }}>로그아웃</div>
             </div>
             <Sidebar />

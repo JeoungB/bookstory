@@ -54,6 +54,6 @@
     top: 50%;
     left: -22px;
     transform: rotate(45deg);
-    box-shadow: 1px 1px 8px 30px rgba(255, 244, 230, 0.507);
+    box-shadow: 1px 1px 8px 30px rgb(255, 248, 237);
     border: 1px solid rgba(224, 224, 224, 0.137);
 }

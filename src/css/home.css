@@ -10,9 +10,10 @@
     position: relative;
     width: 100%;
     height: 100%;
-	background-color: rgb(255, 255, 255);
+	background-color: rgb(255, 248, 237);
 }
 
+/* 유저 프로필 */
 .home_user-profile {
     position: relative;
     width: 100%;
@@ -23,6 +24,7 @@
     border-bottom: 1px solid rgba(134, 134, 134, 0.507);
 }
 
+/* 유저 프로필 이미지 */
 .home_user-profile #user_img {
     width: 150px;
     height: 150px;
@@ -32,7 +34,7 @@
     justify-content: center;
     cursor: pointer;
     overflow: hidden;
-    border: 1px solid black;
+    border: 10px solid rgb(253, 229, 175);
 }
 
 .home_user-profile #user_img img {
@@ -41,11 +43,29 @@
     height: 100%;
 }
 
+/* 이미지 삭제 */
+.delete_img {
+    position: relative;
+    left: -60px;
+    top: 50px;
+    min-width: 35px;
+    min-height: 35px;
+    border-radius: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: rgb(223, 207, 172);
+    border: 10px solid rgb(255, 248, 237);
+    z-index: 5;
+}
+
+/* 유저 이름, 이메일 */
 .home_user-profile .user_data {
     position: relative;
     top: 6px;
-    margin-left: 20px;
     color: rgb(117, 117, 117);
+    margin-left: -20px;
 }
 
 .home_user-profile #user_name{
@@ -64,4 +84,16 @@
 
 #upload {
     display: none;
+}
+
+/* 좋아요 한 책 목록 */
+.user_likeBooks {
+    width: 100%;
+    height: 300px;
+    background-color: aqua;
+}
+
+/* 구독 한 유저 */
+.user_subscribe {
+
 }
