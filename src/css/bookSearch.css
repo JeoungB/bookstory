@@ -56,6 +56,10 @@
     left: 240px;
     width: calc(100vw - 240px);
     display: flex;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-rows: auto;
+    grid-gap: 30px; */
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
@@ -67,11 +71,30 @@
     margin: 0 40px 50px 40px;
     min-width: 150px;
     height: 200px;
-    background-color: antiquewhite;
+    background-color: rgb(248, 225, 195);
     padding: 40px 40px 60px 40px;
     display: flex;
     border-radius: 10px;
     overflow: hidden;
+    animation-name: list;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    cursor: pointer;
+}
+
+.contents .contents-container:hover {
+    transform: translateY(-10px);
+    transition: .3s;
+    box-shadow: -4px 10px 3px 1px rgba(171, 171, 171, 0.564);
+}
+
+@keyframes list {
+    from {
+        transform: translateY(35px);
+    }
+    to {
+        transform: translateY(0px);
+    }
 }
 
 /* 책 리스트 접힌 부분 */

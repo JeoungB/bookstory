@@ -74,7 +74,7 @@ const BookSearch = () => {
 
   // 검색 엔터 함수
   const enterKey = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && search) {
       getBooks();
     }
   };
@@ -92,18 +92,37 @@ const BookSearch = () => {
       const searchData = searchDatas.filter((searchDatas) => {
         return searchDatas.thumbnail !== "";
       });
-      dispatch(searchBookData(searchData));
+
+      // 카카오 책 목록중 고유 아이디가 중복인 경우 map 오류 수정.
+      // isbn이 중복인 isbn찾기
+      let dataIsbn = [];
+      for(let i = 0 ; i < searchData.length ; i++) {
+        for(let v = 1 ; v < searchData.length ; v++) {
+          if(searchData[i].isbn === searchData[v].isbn) {
+            dataIsbn.push(searchData[i].isbn);
+          }
+        }
+      }
+      let sameIsbn = [...new Set(dataIsbn.filter((item, index) => 
+        dataIsbn.indexOf(item) !== index
+      ))];
+
+      // 중복인 isbn은 거르기
+      const datas = searchData.filter((data) => {
+        for(let i = 0 ; i < sameIsbn.length ; i++) {
+          return data.isbn !== sameIsbn[i]
+        }
+      });
+
+      if(datas.length !== 0) {
+        dispatch(searchBookData([...datas]));
+      }
+
+      if(datas.length === 0) {
+        dispatch(searchBookData(searchData));
+      }
     } catch (error) {
       console.log("검색한 책 정보 가져오기 실패", error);
-    }
-  };
-
-  // 최신 책 가져오기 9개 ( 카카오 API )
-  const getBookRecency = () => {
-    try {
-      const params = {};
-    } catch (error) {
-      console.log("최신 책 정보 가져오기 실패", error);
     }
   };
 
@@ -125,7 +144,9 @@ const BookSearch = () => {
           className="search-book"
           onClick={(e) => {
             e.preventDefault();
-            getBooks();
+            if(search) {
+              getBooks();
+            }
           }}
         >
           <img src={searchIcon} alt="검색 아이콘" />
@@ -172,6 +193,7 @@ const BookSearch = () => {
                     }}
                   />
                 )}
+
               </div>
             );
           })}

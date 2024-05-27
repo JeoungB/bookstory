@@ -26,8 +26,6 @@ const Home = () => {
   const imageUrl = useSelector((state) => state.userProfileImg);
   const [likeBooks, setLikeBooks] = useState([]);
 
-  console.log("좋아요 한 책", likeBooks);
-
   useEffect(() => {
     getUserProfileImg();
   }, [email]);
@@ -134,15 +132,21 @@ const Home = () => {
             <div id="user_name">{name}</div>
             <div id="user_email">{email}</div>
           </div>
+
+          <p className="logout">로그아웃</p>
         </div>
 
         <div className="user_subscribe">
             <p>구독중인 유저</p>
+            <ul className="subscribe">
+              <p className="not_subscribe">구독중인 유저가 없습니다</p>
+            </ul>
         </div>
 
+          {/* 일정 책 개수 넘으면 옆으로 넘기는 기능 추가. */}
         <div className="user_likeBooks">
           <p>좋아요한 책</p>
-          <ul className="bookList">
+          {/* <ul className="bookList">
             {Array.isArray(likeBooks) && likeBooks.length !== 0
               ? likeBooks.map((likeBooks) => {
                   return (
@@ -152,7 +156,11 @@ const Home = () => {
                   );
                 })
               : null}
-          </ul>
+          </ul> */}
+        </div>
+
+        <div>
+          <p>내가 쓴 글 목록</p>
         </div>
       </div>
     </div>
