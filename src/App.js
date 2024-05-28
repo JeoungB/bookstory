@@ -10,6 +10,7 @@ import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import BookSearch from "./Components/BookSearch";
 import BookDetail from "./Components/BookDetail";
+import LikeBook from "./Components/LikeBook";
 
 
 // 이미지 출저.
@@ -68,6 +69,7 @@ function App() {
       <Route path='/' element={<Layout />}>
       <Route index element={<Main />} />
       <Route path='/home/:name' element={<Home />} />
+      <Route path='/home/:name/likebook' element={<LikeBook />} />
       <Route path="/booksearch" element={<BookSearch />}/>
       <Route path="/bookdetail/:title" element={<BookDetail />}/>
       </Route>

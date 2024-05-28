@@ -49,12 +49,6 @@ const Layout = () => {
                 </ul>
                 )
             }
-            <div onClick={() => {
-              dispatch(logoutUser());
-              dispatch(logoutLikeBook());
-              dispatch(clearProfileImg());
-              logout();
-            }}>로그아웃</div>
             </div>
             <Sidebar />
             <Outlet />

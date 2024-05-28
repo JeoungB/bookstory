@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import "../css/home.css";
 import userIcon from "../imgs/user-icon.png";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
@@ -12,8 +12,10 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { database } from "../firebase";
-import { setProfileImg } from "../store";
+import { database, logout } from "../firebase";
+import { clearProfileImg, logoutLikeBook, logoutUser, setProfileImg } from "../store";
+import likeBookImg from "../imgs/like-book-menu.jpg";
+import heartImg from "../imgs/heart-true.png";
 
 const Home = () => {
   // 유저 홈 입장 시 유저 아이콘 위치 옮기기
@@ -21,14 +23,14 @@ const Home = () => {
 
   let { name } = useParams();
   let dispatch = useDispatch();
+  let navigate = useNavigate();
   const email = useSelector((state) => state.user);
   const storage = getStorage();
   const imageUrl = useSelector((state) => state.userProfileImg);
-  const [likeBooks, setLikeBooks] = useState([]);
 
   useEffect(() => {
     getUserProfileImg();
-  }, [email]);
+  }, []);
 
   // 스토어에 이미지 업로드 및 데이터 베이스에 이미지 URL 저장
   // 코드 리팩토링 필요.
@@ -55,7 +57,7 @@ const Home = () => {
     });
   };
 
-  // 유저의 데이터 가져오기 (프로필 사진, 좋아요한 책, 구독한 유저)
+  // 유저의 데이터 가져오기 (프로필 사진, 구독한 유저)
   const getUserProfileImg = async () => {
     try {
       const user = await query(
@@ -71,9 +73,6 @@ const Home = () => {
         if (user.data().profileImg) {
           dispatch(setProfileImg(user.data().profileImg));
         }
-
-        // 데이터 베이스에서 좋아요한 책 목록 가져오기.
-        setLikeBooks(user.data().likeBook);
       });
     } catch (error) {
       console.log("프로필 이미지 불러오기 실패", error);
@@ -133,34 +132,33 @@ const Home = () => {
             <div id="user_email">{email}</div>
           </div>
 
-          <p className="logout">로그아웃</p>
+          <p className="logout" onClick={() => {
+            logout();
+            dispatch(logoutUser());
+            dispatch(logoutLikeBook());
+            dispatch(clearProfileImg());
+            navigate('/login');
+          }}>로그아웃</p>
         </div>
 
         <div className="user_subscribe">
-            <p>구독중인 유저</p>
             <ul className="subscribe">
               <p className="not_subscribe">구독중인 유저가 없습니다</p>
             </ul>
         </div>
 
-          {/* 일정 책 개수 넘으면 옆으로 넘기는 기능 추가. */}
-        <div className="user_likeBooks">
-          <p>좋아요한 책</p>
-          {/* <ul className="bookList">
-            {Array.isArray(likeBooks) && likeBooks.length !== 0
-              ? likeBooks.map((likeBooks) => {
-                  return (
-                    <li className="book_item" key={likeBooks.isbn}>
-                      <h2>{likeBooks.title}</h2>
-                    </li>
-                  );
-                })
-              : null}
-          </ul> */}
+        <div className="user_menu">
+        <div className="user_likeBooks" onClick={() => {
+          navigate(`/home/:${name}/likebook`);
+        }}>
+          <p>좋아요</p>
+          <img className="heart_img" src={heartImg} alt="하트 이미지" />
+          <img className="back_img" src={likeBookImg} alt="책 이미지" />
         </div>
 
-        <div>
-          <p>내가 쓴 글 목록</p>
+        <div className="user_post">
+          <p>나의 글</p>
+        </div>
         </div>
       </div>
     </div>
