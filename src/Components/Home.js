@@ -29,7 +29,7 @@ const Home = () => {
   const imageUrl = useSelector((state) => state.userProfileImg);
 
   useEffect(() => {
-    getUserProfileImg();
+      getUserProfileImg();
   }, []);
 
   // 스토어에 이미지 업로드 및 데이터 베이스에 이미지 URL 저장
@@ -149,7 +149,7 @@ const Home = () => {
 
         <div className="user_menu">
         <div className="user_likeBooks" onClick={() => {
-          navigate(`/home/:${name}/likebook`);
+          navigate(`/home/${name}/likebook`);
         }}>
           <p>좋아요</p>
           <img className="heart_img" src={heartImg} alt="하트 이미지" />

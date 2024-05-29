@@ -129,6 +129,7 @@
     background-size: contain;
 }
 
+/* 책 자세히 보기 */
 .contents .contents-container #open-book {
     position: absolute;
     top: 255px;

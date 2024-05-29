@@ -21,6 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 30px;
 }
 
 /* 유저 프로필 이미지 */
@@ -92,6 +93,7 @@
     height: 200px;
     font-size: 20px;
     box-shadow: inset 0px 0px 10px 3px rgb(255, 232, 189);
+    margin-top: 50px;
 }
 
 .user_subscribe .subscribe {
@@ -115,6 +117,7 @@
     justify-content: center;
     align-items: center;
     padding-top: 20px;
+    margin-top: 60px;
 }
 
 .user_menu .user_likeBooks, .user_post {
@@ -126,7 +129,7 @@
     margin: 50px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0px 0px 4px 3px rgba(182, 182, 182, 0.226);
+    box-shadow: 0px 0px 4px 3px rgb(255, 232, 189);
 }
 
 .user_menu .user_likeBooks .back_img {
