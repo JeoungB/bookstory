@@ -101,10 +101,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      {/* 프로필 사진 옆에 구독한 사람 수 , 나를 구독한 사람, 게시글 개수 띄우고
-        그 아래에 내 이름, 이메일 표시하는게 좋을듯
-        그리고 좋아요 한 책 목록 디자인 고민도
-      */}
       <div className="home_container">
         <div className="home_user-profile">
           <input
@@ -131,13 +127,16 @@ const Home = () => {
             deleteImg();
           }}>X</div>
 
-          <div className="user_data">
-            <div id="user_name">{name}</div>
-            <div id="user_email">{email}</div>
-          </div>
+          <ul className="user_data">
+            <li id="user_following">팔로잉 0</li>
+            <li id="user_follower">팔로워 0</li>
+            <li id="user_post">게시글 0</li>
+            <li id="user_name">{name}</li>
+            <li id="user_email">{email}</li>
+          </ul>
 
           <p className="logout" onClick={() => {
-            if(confirm("로그아웃 하시겠습니까?")) {
+            if(window.confirm("로그아웃 하시겠습니까?")) {
               logout();
               dispatch(logoutUser());
               dispatch(logoutLikeBook());
