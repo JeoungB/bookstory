@@ -11,7 +11,7 @@ import { addLikeBook, removeLikeBook } from "../store";
 import { likeBookHandler } from "../firebase";
 
 // 페이지가 너무 심심함
-// 이 책의 저자관련 책 더 보기 페이지 만들면 좋을듯
+// 디자인 UI 좀 보고 따라 만들어보자
 // 책 넘어가는 애니메이션도 만들고
 
 const BookDetail = () => {
