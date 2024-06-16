@@ -13,9 +13,36 @@
 	background-color: rgb(255, 248, 237);
 }
 
+.back_container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.one {
+    background: linear-gradient(165deg, transparent 19vw, rgba(230, 219, 203, 0.39) 0);
+}
+
+.two {
+    background: linear-gradient(-175deg, transparent 13vw, rgba(230, 219, 203, 0.26) 0);
+}
+
+.three {
+    background: linear-gradient(169deg, transparent 22vw, rgba(230, 219, 203, 0.363) 0);
+}
+
+.for {
+    background: linear-gradient(-175deg, transparent 20vw, rgba(230, 219, 203, 0.418) 0);
+}
+
+.five {
+    background: linear-gradient(175deg, transparent 25vw, rgb(255, 248, 237) 0);
+}
+
 /* 유저 프로필 */
 .home_user-profile {
     position: relative;
+    top: 200px;
     width: 100%;
     height: 200px;
     display: flex;
@@ -88,94 +115,74 @@
     color: gray;
 }
 
-/* 구독중 유저 */
-.user_subscribe {
-    width: 100%;
-    height: 200px;
-    font-size: 20px;
-    box-shadow: inset 0px 0px 10px 3px rgb(255, 232, 189);
-    margin-top: 50px;
-}
-
-.user_subscribe .subscribe {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.user_subscribe .not_subscribe {
-    font-size: 20px;
-}
-
-/* 유저 메뉴 (좋아요한 책, 나의 게시글) */
+/* 유저 메뉴 */
 .user_menu {
-    position: relative;
+    position: absolute;
+    bottom: 80px;
     width: 100%;
-    height: 250px;
+    height: 300px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 20px;
-    margin-top: 60px;
 }
 
-.user_menu .user_likeBooks, .user_post {
-    position: relative;
-    min-width: 200px;
-    width: 200px;
-    height: 250px;
-    border-radius: 20px;
-    margin: 50px;
-    overflow: hidden;
+.user_menu a {
+    height: 23px;
+    margin: 20px;
+    color: gray;
     cursor: pointer;
-    box-shadow: 0px 0px 4px 3px rgb(255, 232, 189);
 }
 
-.user_menu .user_likeBooks .back_img {
-    background-size: cover;
-    transform: scale(.6);
-    left: -150px;
-    top: -97px;
-    position: relative;
+.user_menu .first {
+    color: rgb(255, 174, 25);
 }
 
-.user_menu .user_likeBooks p {
-    color: rgb(255, 130, 108) !important;
-    position: relative;
-    left: -10px;
-    bottom: 21px;
-}
-
-.user_menu .user_likeBooks:hover .back_img {
-    transform: scale(.7);
-    transition: .2s;
-}
-
-.user_menu .user_likeBooks .heart_img {
-    width: 30px;
-    height: 30px;
-    z-index: 4;
+#underline {
     position: absolute;
-    bottom: 5px;
-    right: 10px;
+    width: 48px;
+    height: 4px;
+    background-color: rgb(255, 174, 25);
+    top: 43px;
+    left: 20px;
+    transition: .3s;
+    border-radius: 3px;
 }
 
-.user_menu .user_likeBooks p {
+.user_menu .contant {
     position: absolute;
-    transform: translate(35%, 10px);
-    z-index: 2;
+    bottom: -40px;
+    width: 100%;
+    height: 280px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 5px 0 5px;
+    border-top: 1px solid rgba(161, 161, 161, 0.39);
+    overflow-y: scroll;
+}
+
+.user_menu .contant p {
+    position: relative;
+    top: 100px;
     font-size: 20px;
-    font-weight: 600;
-    color: white;
 }
 
+.user_menu .contant::-webkit-scrollbar {
+    display: none;
+}
+
+.user_menu .contant .items {
+    margin: 10px;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.user_menu .contant .items:hover {
+    transform: scale(1.1);
+}
 
 /* 로그아웃 */
 .logout {
     position: absolute;
-    top: 0;
+    bottom: -155px;
     right: 0;
     color: rgba(255, 24, 24, 0.692);
     font-size: 20px;

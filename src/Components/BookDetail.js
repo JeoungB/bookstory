@@ -99,8 +99,14 @@ const BookDetail = () => {
                 src={heartFalse}
                 alt="좋아요 아이콘"
                 onClick={() => {
-                  likeBookHandler(true, book[0].isbn, book[0], userEmail);
-                  dispatch(addLikeBook(book[0].isbn));
+                  if(userEmail) {
+                    likeBookHandler(true, book[0].isbn, book[0], userEmail);
+                    dispatch(addLikeBook(book[0].isbn));
+                  }
+
+                  if(!userEmail) {
+                    alert("로그인이 필요합니다.");
+                  }
                 }}
               />
             )}

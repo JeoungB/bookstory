@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import kakaoSearch from "../api/axios";
 import "../css/bookSearch.css";
-import openBook from "../imgs/open-book.png";
 import heartFalse from "../imgs/heart-false.png";
 import heartTrue from "../imgs/heart-true.png";
 import searchIcon from "../imgs/search-icon.png";
@@ -161,15 +160,10 @@ const BookSearch = () => {
                 <div className="pointer">
                   <div className="line"></div>
                 </div>
-                <img id="book" src={books.thumbnail} alt="책 이미지" />
-                <img
-                  id="open-book"
-                  src={openBook}
-                  alt="책 자세히 보기 아이콘"
-                  onClick={() => {
-                    navigate(`/bookdetail/${books.title}`);
-                  }}
-                />
+                <img id="book" src={books.thumbnail} alt="책 이미지" onClick={() => {
+                  navigate(`/bookdetail/${books.title}`);
+                }} />
+
                 {likeBooks.includes(books.isbn) ? (
                   <img
                     className="heart false"
@@ -177,8 +171,8 @@ const BookSearch = () => {
                     src={heartTrue}
                     alt="좋아요 아이콘"
                     onClick={() => {
-                      likeBookHandler(false, books.isbn, books, userEmail);
-                      dispatch(removeLikeBook(books.isbn));
+                        likeBookHandler(false, books.isbn, books, userEmail);
+                        dispatch(removeLikeBook(books.isbn));
                     }}
                   />
                 ) : (
@@ -188,8 +182,14 @@ const BookSearch = () => {
                     src={heartFalse}
                     alt="좋아요 아이콘"
                     onClick={() => {
-                      likeBookHandler(true, books.isbn, books, userEmail);
-                      dispatch(addLikeBook(books.isbn));
+                      if(userEmail) {
+                        likeBookHandler(true, books.isbn, books, userEmail);
+                        dispatch(addLikeBook(books.isbn));
+                      }
+
+                      if(!userEmail) {
+                        alert("로그인이 필요합니다.");
+                      }
                     }}
                   />
                 )}
