@@ -16,7 +16,7 @@ import book9 from "../imgs/book9.jfif";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { database } from "../firebase";
-import { addLikeBook, removeLikeBook, searchBookData } from "../store";
+import { addLikeBook, removeLikeBook, removeLikeBooks, searchBookData } from "../store";
 import { likeBookHandler } from "../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
@@ -173,6 +173,7 @@ const BookSearch = () => {
                     onClick={() => {
                         likeBookHandler(false, books.isbn, books, userEmail);
                         dispatch(removeLikeBook(books.isbn));
+                        dispatch(removeLikeBooks(books));
                     }}
                   />
                 ) : (

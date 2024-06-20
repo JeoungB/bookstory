@@ -44,6 +44,29 @@ let likeBook = createSlice({
     }
 });
 
+let likeBooks = createSlice({
+    name : "likeBooks",
+    initialState : [],
+    reducers : {
+        // 좋아요한 책 목록 저장
+        addLikeBooks(state, action) {
+            state = action.payload;
+            return state;
+        },
+        removeLikeBooks(state, action) {
+            const newState = state.filter((state) => {
+                return state === action.payload;
+            })
+            state = [...newState];
+            return state;
+        },
+        logoutLikeBooks(state) {
+            state = [];
+            return state;
+        },
+    }
+})
+
 // 검색한 책 정보 유지
 let searchBook = createSlice({
     name : 'searchBook',
@@ -51,6 +74,10 @@ let searchBook = createSlice({
     reducers : {
         searchBookData(state, action) {
             state = action.payload;
+            return state;
+        },
+        logoutSearchData(state) {
+            state = [];
             return state;
         }
     }
@@ -74,12 +101,14 @@ let userProfileImg = createSlice({
 
 export let { loginUser,  logoutUser } = user.actions;
 export let { addLikeBook, removeLikeBook, logoutLikeBook } = likeBook.actions;
-export let { searchBookData } = searchBook.actions;
+export let { addLikeBooks, removeLikeBooks, logoutLikeBooks } = likeBooks.actions;
+export let { searchBookData, logoutSearchData } = searchBook.actions;
 export let { setProfileImg, clearProfileImg } = userProfileImg.actions;
 
 const reducers = combineReducers({
     user : user.reducer,
     likeBook : likeBook.reducer,
+    likeBooks : likeBooks.reducer,
     searchBook : searchBook.reducer,
     userProfileImg : userProfileImg.reducer
 });
@@ -87,7 +116,7 @@ const reducers = combineReducers({
 const persistConfig = {
     key : 'user',
     storage : localStorage,
-    whitelist : ['user', 'likeBook', 'userProfileImg']
+    whitelist : ['user', 'likeBook', 'userProfileImg', 'likeBooks']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers);

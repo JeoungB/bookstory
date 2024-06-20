@@ -13,12 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import { database, logout } from "../firebase";
-import { clearProfileImg, logoutLikeBook, logoutUser, setProfileImg } from "../store";
-import likeBookImg from "../imgs/like-book-menu.jpg";
-import heartImg from "../imgs/heart-true.png";
-import { Navigation, A11y } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
+import { addLikeBooks, clearProfileImg, logoutLikeBook, logoutLikeBooks, logoutSearchData, logoutUser, setProfileImg } from "../store";
 
 
 const Home = () => {
@@ -30,7 +25,8 @@ const Home = () => {
   const email = useSelector((state) => state.user);
   const storage = getStorage();
   const imageUrl = useSelector((state) => state.userProfileImg);
-  const [likeBooks, setLikeBooks] = useState([]);
+  //const [likeBooks, setLikeBooks] = useState([]);
+  const likeBooks = useSelector((state) => state.likeBooks);
   const [menuState, setMenuState] = useState(1);
   let underline = document.getElementById("underline");
   let menus = document.querySelectorAll("div:first-child a");
@@ -64,7 +60,7 @@ const Home = () => {
     });
   };
 
-  // 유저의 데이터 가져오기 (프로필 사진, 구독한 유저)
+  // 유저의 데이터 가져오기 (프로필 사진, 좋아요 한 책, 구독한 유저)
   const getUserProfileImg = async () => {
     try {
       const user = await query(
@@ -72,21 +68,18 @@ const Home = () => {
         where("email", "==", `${email}`)
       );
       const emailUser = await getDocs(user);
-
       emailUser.forEach((user) => {
         console.log("저장된 이미지 주소", user.data().profileImg);
+
+        // 좋아요 한 책 목록 가져오기.
+        if(user.data().likeBook) {
+          dispatch(addLikeBooks(user.data().likeBook));
+        }
 
         // 데이터 베이스에서 프로필 사진 가져오기.
         if (user.data().profileImg) {
           dispatch(setProfileImg(user.data().profileImg));
         }
-
-        // 좋아요 한 책
-        setLikeBooks(() => {
-          let newData = [...likeBooks];
-          newData = user.data().likeBook;
-          return newData;
-        });
       });
     } catch (error) {
       console.log("프로필 이미지 불러오기 실패", error);
@@ -172,7 +165,9 @@ const Home = () => {
               logout();
               dispatch(logoutUser());
               dispatch(logoutLikeBook());
+              dispatch(logoutLikeBooks());
               dispatch(clearProfileImg());
+              dispatch(logoutSearchData());
               navigate('/login');
             }
           }}>로그아웃</p>

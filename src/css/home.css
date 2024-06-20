@@ -125,7 +125,9 @@
 }
 
 .user_menu a {
-    height: 23px;
+    position: relative;
+    top: 10px;
+    height: 27px;
     margin: 20px;
     color: gray;
     cursor: pointer;
@@ -138,9 +140,9 @@
 #underline {
     position: absolute;
     width: 48px;
-    height: 4px;
+    height: 5px;
     background-color: rgb(255, 174, 25);
-    top: 43px;
+    top: 57px;
     left: 20px;
     transition: .3s;
     border-radius: 3px;
@@ -182,11 +184,12 @@
 /* 로그아웃 */
 .logout {
     position: absolute;
-    bottom: -155px;
+    bottom: -143px;
     right: 0;
     color: rgba(255, 24, 24, 0.692);
     font-size: 20px;
     font-weight: 600;
     cursor: pointer;
     padding: 10px;
+    z-index: 10;
 }

@@ -7,7 +7,7 @@ import heartTrue from "../imgs/heart-true.png";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import { database } from "../firebase";
-import { addLikeBook, removeLikeBook } from "../store";
+import { addLikeBook, removeLikeBook, removeLikeBooks } from "../store";
 import { likeBookHandler } from "../firebase";
 
 // 페이지가 너무 심심함
@@ -65,14 +65,21 @@ const BookDetail = () => {
 
   return (
     <div className="book_detail">
+        <div className="back_container one"></div>
+        <div className="back_container two"></div>
+        <div className="back_container three"></div>
+        <div className="back_container for"></div>
+        <div className="back_container five"></div>
       <div className="book_detail-content">
         {Array.isArray(book) && book.length !== 0 ? (
           <div>
             <h1>{book[0].title}</h1>
+            <div className="book_detail-con">
             <div className="content_img">
               <img src={book[0].thumbnail} alt="책 이미지" />
             </div>
             <p>{book[0].contents}</p>
+            </div>
             <div className="authors">저자 : {book[0].authors}</div>
             <div className="publisher">링크 : </div>
             <a
@@ -91,6 +98,7 @@ const BookDetail = () => {
                 onClick={() => {
                   likeBookHandler(false, book[0].isbn, book[0], userEmail);
                   dispatch(removeLikeBook(book[0].isbn));
+                  dispatch(removeLikeBooks(book[0]));
                 }}
               />
             ) : (
@@ -99,12 +107,12 @@ const BookDetail = () => {
                 src={heartFalse}
                 alt="좋아요 아이콘"
                 onClick={() => {
-                  if(userEmail) {
+                  if (userEmail) {
                     likeBookHandler(true, book[0].isbn, book[0], userEmail);
                     dispatch(addLikeBook(book[0].isbn));
                   }
 
-                  if(!userEmail) {
+                  if (!userEmail) {
                     alert("로그인이 필요합니다.");
                   }
                 }}
