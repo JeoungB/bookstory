@@ -78,7 +78,9 @@ const BookDetail = () => {
             <div className="content_img">
               <img src={book[0].thumbnail} alt="책 이미지" />
             </div>
+            <div className="p_container">
             <p>{book[0].contents}</p>
+            </div>
             </div>
             <div className="authors">저자 : {book[0].authors}</div>
             <div className="publisher">링크 : </div>

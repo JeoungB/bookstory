@@ -116,7 +116,7 @@ const reducers = combineReducers({
 const persistConfig = {
     key : 'user',
     storage : localStorage,
-    whitelist : ['user', 'likeBook', 'userProfileImg', 'likeBooks']
+    whitelist : ['user', 'userProfileImg', 'likeBooks']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers);
