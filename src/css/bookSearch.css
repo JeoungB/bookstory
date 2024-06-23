@@ -1,3 +1,5 @@
+
+
 /* 검색 페이지 설명 */
 .bookSearch h2 {
     position: absolute;
@@ -54,7 +56,7 @@
     position: absolute;
     top: 250px;
     left: 240px;
-    width: calc(100vw - 240px);
+    width: calc(100vw - 260px);
     display: flex;
     /* display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;

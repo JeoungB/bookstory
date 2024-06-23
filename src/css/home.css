@@ -1,7 +1,7 @@
 .home {
     position: absolute;
     right: 0;
-    width: calc(100% - 241px);
+    width: calc(100% - 240px);
     height: 100%;
     z-index: 5;
 }
@@ -10,7 +10,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-	background-color: rgb(255, 248, 237);
+    background-color: rgb(255, 248, 237);
 }
 
 .back_container {
@@ -110,7 +110,8 @@
     padding: 10px;
 }
 
-.user_data #user_name, #user_email {
+.user_data #user_name,
+#user_email {
     position: relative;
     color: gray;
 }
@@ -120,7 +121,7 @@
     position: absolute;
     bottom: 80px;
     width: 100%;
-    height: 300px;
+    height: 24vh;
     display: flex;
 }
 
@@ -133,10 +134,25 @@
     cursor: pointer;
 }
 
+.user_menu>p {
+    display: inline-block;
+    width: 80px;
+    height: 20px;
+    border-left: 1px solid rgba(128, 128, 128, 0.534);
+    padding-left: 20px;
+    color: rgb(255, 166, 0);
+    position: relative;
+    top: 29.9px;
+    left: 7px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
 .user_menu .first {
     color: rgb(255, 174, 25);
 }
 
+/* 메뉴바 라인 */
 #underline {
     position: absolute;
     width: 48px;
@@ -148,15 +164,15 @@
     border-radius: 3px;
 }
 
+/* 메뉴 컨텐츠 */
 .user_menu .contant {
     position: absolute;
-    bottom: -40px;
+    bottom: -120px;
     width: 100%;
-    height: 280px;
+    height: 30vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 0 5px 0 5px;
     border-top: 1px solid rgba(161, 161, 161, 0.39);
     overflow-y: scroll;
 }
@@ -164,13 +180,16 @@
 .user_menu .contant p {
     position: relative;
     top: 100px;
+    height: 20px;
     font-size: 20px;
 }
 
+/* 메뉴 스크롤바 */
 .user_menu .contant::-webkit-scrollbar {
     display: none;
 }
 
+/* 메뉴 아이템 */
 .user_menu .contant .items {
     margin: 15px 10px 10px 10px;
     transition: .3s;
@@ -181,10 +200,95 @@
     transform: scale(1.1);
 }
 
+.user_menu .contant .items .item {
+    width: 100%;
+}
+
+/* 선택 박스 */
+.choice_book {
+    position: absolute;
+    transform: translate(-40px, 10px);
+    z-index: 3;
+}
+
+.choice_book input {
+    display: none;
+}
+
+.choice_book span {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.choice_book .icon {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 60px;
+    border: 3px solid #ff9100;
+}
+
+.choice_book .icon::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 11px;
+    width: 5px;
+    height: 11px;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg) scale(0);
+    transition: all .3s ease;
+    transition-delay: .15s;
+    opacity: 0;
+}
+
+.choice_book input:checked~.icon {
+    border-color: transparent;
+    background-color: #ff9100;
+    animation: jelly .6s ease;
+}
+
+.choice_book input:checked~.icon::after {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+}
+
+@keyframes jelly {
+    from {
+        transform: scale(1, 1);
+    }
+
+    30% {
+        transform: scale(1.25, 0.75);
+    }
+
+    40% {
+        transform: scale(0.75, 1.25);
+    }
+
+    50% {
+        transform: scale(1.15, 0.85);
+    }
+
+    65% {
+        transform: scale(0.95, 1.05);
+    }
+
+    75% {
+        transform: scale(1.05, 0.95);
+    }
+
+    to {
+        transform: scale(1, 1);
+    }
+}
+
 /* 로그아웃 */
 .logout {
     position: absolute;
-    bottom: -143px;
+    top: -190px;
     right: 0;
     color: rgba(255, 24, 24, 0.692);
     font-size: 20px;
