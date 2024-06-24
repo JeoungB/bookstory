@@ -243,13 +243,20 @@ const Home = () => {
                           }
                           // 이미지 클릭 시 체크박스 활성화.
                           if(iconState) {
-                            
+                            let box = document.getElementsByClassName('checkbox');
+                            let itemIndex = likeBooks.indexOf(likeBook);
+
+                            if(box[itemIndex].checked === false) {
+                              box[itemIndex].checked = true;
+                            } else {
+                              box[itemIndex].checked = false;
+                            }
                           }
                         }}
                       />
                       {iconState ? (
                         <label className="choice_book">
-                          <input id="checkbox" type="checkbox"></input>
+                          <input id="checkbox" className="checkbox" type="checkbox"></input>
                           <span className="icon"></span>
                         </label>
                       ) : null}

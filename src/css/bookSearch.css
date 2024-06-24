@@ -152,6 +152,11 @@
     cursor: pointer;
 }
 
+.contents .contents-container .red {
+    transition: .3s;
+    transform: rotate(45deg);
+}
+
 /* 슬라이드 최상단 부모 */
 .book-animation {
     position: relative;

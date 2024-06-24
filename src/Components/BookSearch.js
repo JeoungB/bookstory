@@ -166,7 +166,7 @@ const BookSearch = () => {
 
                 {likeBooks.includes(books.isbn) ? (
                   <img
-                    className="heart false"
+                    className="heart red"
                     id="heart"
                     src={heartTrue}
                     alt="좋아요 아이콘"

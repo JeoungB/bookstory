@@ -119,7 +119,7 @@
 /* 유저 메뉴 */
 .user_menu {
     position: absolute;
-    bottom: 80px;
+    bottom: 150px;
     width: 100%;
     height: 24vh;
     display: flex;
