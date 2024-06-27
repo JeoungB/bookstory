@@ -1,0 +1,112 @@
+.writePage {
+    position: absolute;
+    left: 240px;
+    width: calc(100% - 240px);
+    height: 100%;
+}
+
+/* 글 작성 */
+.write_container {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 500px;
+    background-color: rgba(255, 255, 255);
+    box-shadow: 10px 10px 10px 3px rgba(0, 0, 0, 0.2);
+}
+
+.write_pointer {
+    position: relative;
+    top: -28px;
+    left: 400px;
+    width: 300px;
+    height: 30px;
+    background: linear-gradient(135deg, transparent 100px, rgb(255, 255, 255) 0);
+}
+
+/* 이미지 부분 */
+.write_img {
+    position: relative;
+    top: -30px;
+    width: 50%;
+    height: 100%;
+    background-color: aqua;
+}
+
+/* 글 작성 부분 */
+.inputs {
+    position: relative;
+    top: -530px;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    padding-top: 30px;
+}
+
+
+/* 제목 */
+.input_title {
+    position: relative;
+    width: 250px;
+    height: 45px;
+    border: 1px solid gray;
+    border-radius: 6px;
+    left: 50%;
+    margin: 30px 0 30px 0;
+    transform: translate(-50%, 0);
+    color: gray;
+}
+
+.input_title input {
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 90%;
+    padding: 10px 10px 10px 20px;
+    border: none;
+    background-color: transparent;
+}
+
+.input_title input:focus {
+    outline: none;
+}
+
+.input_title:focus-within {
+    border-color: aqua;
+    color: aqua;
+}
+
+.input_title:focus-within>.title_label,
+.input_title input:not(:placeholder-shown)~.title_label {
+    top: -44px;
+    background-color: white;
+}
+
+.input_title .title_label {
+    position: relative;
+    left: 13px;
+    top: -20px;
+    padding: 5px;
+    font-size: 16px;
+    cursor: text;
+    transition: .3s;
+}
+
+/* 내용 */
+.content {
+    width: 90%;
+    height: 250px;
+    margin: 0px 5% 0px 5%;
+    outline: none;
+    resize: none;
+    border-radius: 6px;
+    background-color: rgb(255, 255, 255);
+}
+
+.write_button {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+}

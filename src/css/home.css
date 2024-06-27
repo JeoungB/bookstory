@@ -119,7 +119,7 @@
 /* 유저 메뉴 */
 .user_menu {
     position: absolute;
-    bottom: 150px;
+    top: 450px;
     width: 100%;
     height: 24vh;
     display: flex;
@@ -127,7 +127,7 @@
 
 .user_menu a {
     position: relative;
-    top: 10px;
+    top: 100px;
     height: 27px;
     margin: 20px;
     color: gray;
@@ -142,7 +142,7 @@
     padding-left: 20px;
     color: rgb(255, 166, 0);
     position: relative;
-    top: 29.9px;
+    top: 120px;
     left: 7px;
     cursor: pointer;
     font-weight: 600;
@@ -158,7 +158,7 @@
     width: 48px;
     height: 5px;
     background-color: rgb(255, 174, 25);
-    top: 57px;
+    top: 147px;
     left: 20px;
     transition: .3s;
     border-radius: 3px;
@@ -167,7 +167,7 @@
 /* 메뉴 컨텐츠 */
 .user_menu .contant {
     position: absolute;
-    bottom: -120px;
+    top: 160px;
     width: 100%;
     height: 30vh;
     display: flex;
