@@ -36,8 +36,11 @@ const Home = () => {
   const likeBooks = useSelector((state) => state.likeBooks);
   const [menuState, setMenuState] = useState(1);
   const [iconState, setIconState] = useState(false);
+  const [selectItem, SetselectItem] = useState([]);
   let underline = document.getElementById("underline");
   let menus = document.querySelectorAll("div:first-child a");
+
+  console.log("선택 한 책", selectItem);
 
   useEffect(() => {
     getUserProfileImg();
@@ -217,7 +220,16 @@ const Home = () => {
             게시글
           </a>
           <a>팔로워</a>
-          <p>공유하기</p>
+          <p onClick={() => {
+            if(!iconState) {
+              alert("공유할 책을 선택해 주세요")
+            }
+
+            if(iconState && selectItem.length === 0) {
+              alert("공유할 책을 선택해 주세요")
+            }
+            // 선택을 다시 눌러서 체크박스 없애면 선택한 책 state 리셋.
+          }}>공유하기</p>
           <p
             onClick={() => {
               choiceIcon();
@@ -247,9 +259,18 @@ const Home = () => {
                             let itemIndex = likeBooks.indexOf(likeBook);
 
                             if(box[itemIndex].checked === false) {
+                              // 책 선택한 경우
                               box[itemIndex].checked = true;
+                              SetselectItem((selectItem) => [...selectItem, likeBook]);
                             } else {
+                              // 선택을 취소한 경우
                               box[itemIndex].checked = false;
+                              let cancelItem = selectItem.filter((item) => item !== likeBook);
+                              SetselectItem(() => {
+                                let newItem = [...selectItem];
+                                newItem = [...cancelItem];
+                                return newItem;
+                              })
                             }
                           }
                         }}
