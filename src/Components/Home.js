@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/home.css";
 import userIcon from "../imgs/user-icon.png";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +20,7 @@ import {
   logoutLikeBooks,
   logoutSearchData,
   logoutUser,
+  selectBook,
   setProfileImg,
 } from "../store";
 
@@ -32,15 +33,12 @@ const Home = () => {
   const email = useSelector((state) => state.user);
   const storage = getStorage();
   const imageUrl = useSelector((state) => state.userProfileImg);
-  //const [likeBooks, setLikeBooks] = useState([]);
   const likeBooks = useSelector((state) => state.likeBooks);
   const [menuState, setMenuState] = useState(1);
   const [iconState, setIconState] = useState(false);
   const [selectItem, SetselectItem] = useState([]);
   let underline = document.getElementById("underline");
   let menus = document.querySelectorAll("div:first-child a");
-
-  console.log("선택 한 책", selectItem);
 
   useEffect(() => {
     getUserProfileImg();
@@ -131,10 +129,6 @@ const Home = () => {
     underline.style.top =
       e.currentTarget.offsetTop + e.currentTarget.offsetHeight + "px";
     e.target.style.color = "rgb(255, 174, 25)";
-  };
-
-  const choiceIcon = () => {
-    setIconState(!iconState);
   };
 
   return (
@@ -228,15 +222,25 @@ const Home = () => {
             if(iconState && selectItem.length === 0) {
               alert("공유할 책을 선택해 주세요")
             }
-            // 선택을 다시 눌러서 체크박스 없애면 선택한 책 state 리셋.
+
+            if(iconState && selectItem.length !== 0) {
+              dispatch(selectBook(selectItem));
+              navigate(`/writepage/${name}`);
+            }
           }}>공유하기</p>
-          <p
-            onClick={() => {
-              choiceIcon();
-            }}
-          >
-            선택
-          </p>
+            {
+              iconState ? (
+                <p
+                  onClick={() => {
+                    setIconState(!iconState); 
+                    SetselectItem([]);}}
+                >취소</p>
+              ) : (
+                <p
+                onClick={() => setIconState(!iconState)}
+                >선택</p>
+              )
+            }
 
           <div className="contant">
             {menuState === 1 ? (

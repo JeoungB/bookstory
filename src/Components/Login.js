@@ -50,9 +50,6 @@ const Login = () => {
 
     return (
         <div className="login">
-
-            <div className="prev">&lt; Back</div>
-
             <div className="box_point">
                 <div className="line"></div>
             </div>
@@ -66,7 +63,7 @@ const Login = () => {
                 <input type="password" id="password" required onChange={(e) => setPassword(e.target.value)}></input>
                 <label className="label_password" htmlFor="password">비밀번호</label>
             </div>
-            <button className="submit" onClick={() => { handleLogin() }}>로그인</button>
+            <button className="submit" onClick={() => { handleLogin() }}><span>로그인</span></button>
         </div>
     )
 }

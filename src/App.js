@@ -1,17 +1,7 @@
 import "./css/reset.css";
-import React from "react";
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from "react";
 import { database } from './firebase';
 import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
-import Home from './Components/Home';
-import Main from './Components/Main';
-import Layout from './Components/Layout';
-import Login from "./Components/Login";
-import Signup from "./Components/Signup";
-import BookSearch from "./Components/BookSearch";
-import BookDetail from "./Components/BookDetail";
-import LikeBook from "./Components/LikeBook";
-import WritePage from "./Components/WritePage";
 
 
 // 이미지 출저.
@@ -65,20 +55,7 @@ function App() {
 
   return (
     <div className="App">
-
-    <Routes>
-      <Route path='/' element={<Layout />}>
-      <Route index element={<Main />} />
-      <Route path='/home/:name' element={<Home />} />
-      <Route path='/home/:name/likebook' element={<LikeBook />} />
-      <Route path="/booksearch" element={<BookSearch />}/>
-      <Route path="/bookdetail/:title" element={<BookDetail />}/>
-      <Route path="/writePage/:name" element={<WritePage />} />
-      </Route>
-      <Route path="/login" element={<Login />}/>
-      <Route path="/signup" element={<Signup />}/>
-    </Routes>
-
+      
     </div>
   );
 }

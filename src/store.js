@@ -101,7 +101,7 @@ let userProfileImg = createSlice({
 
 // 공유할 책 선택
 // 선택한 경우 useState에 저장된 후 공유하기 누르면 이곳에 저장.
-// home 페이지 마운트하거나 공유를 취소할 경우 빈 배열로 초기화해야함.
+// 작성 페이지 나가거나 공유를 취소할 경우 빈 배열로 초기화해야함.
 let selectBooks = createSlice({
     name : 'selectBooks',
     initialState : [],
@@ -110,6 +110,9 @@ let selectBooks = createSlice({
             let newState = [...state];
             newState = [...action.payload];
             return newState;
+        },
+        deleteSelectBooks(state, action) {
+            state = action.payload;
         }
     }
 });
@@ -119,7 +122,7 @@ export let { addLikeBook, removeLikeBook, logoutLikeBook } = likeBook.actions;
 export let { addLikeBooks, removeLikeBooks, logoutLikeBooks } = likeBooks.actions;
 export let { searchBookData, logoutSearchData } = searchBook.actions;
 export let { setProfileImg, clearProfileImg } = userProfileImg.actions;
-export let { selectBook } = selectBooks.actions;
+export let { selectBook, deleteSelectBooks } = selectBooks.actions;
 
 const reducers = combineReducers({
     user : user.reducer,
@@ -133,7 +136,7 @@ const reducers = combineReducers({
 const persistConfig = {
     key : 'user',
     storage : localStorage,
-    whitelist : ['user', 'userProfileImg', 'likeBooks']
+    whitelist : ['user', 'userProfileImg', 'likeBooks', 'selectBooks']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers);
