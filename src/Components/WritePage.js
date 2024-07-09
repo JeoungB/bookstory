@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../css/writePage.css";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,28 +6,37 @@ import 'swiper/css';
 import { useSelector } from "react-redux";
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { useNavigate } from "react-router-dom";
 // import 'swiper/css/scrollbar';
 
 const WritePage = () => {
 
+  const titleRef = useRef("");
   const [test, ttest] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const items = useSelector((state) => state.selectBooks);
+  let navigate = useNavigate();
 
   useEffect(() => {
-    // (test) 작성된 내용이 있다면 뒤로가기 전에 확인.
-    if(test) {
-    // eslint-disable-next-line no-restricted-globals
-    history.pushState(null, "", "");
-    window.onpopstate = () => {
-      alert("작성 내용이 저장되지 않았습니다. 현재 페이지를 나가겠습니까?");
-    }
-    } else {
-      // 뒤로가기 기능 해주는 부분.
-      window.onpopstate = () => {};
-    }
-  }, [test]);
+    // 우선 타이틀만 적용 테스트.
+    if(titleRef.current.value) {
+      // onopopstate : 앞, 뒤로가기 이벤트를 감지하는 이벤트.
+      window.onpopstate = () => {
+        if(window.confirm("go?")) {
+          // 뒤로가기 적용.
+        } else {
+          // 뒤로가기 취소시 작성중 내용 없어짐 이슈.
+          // 1. 취소시 리로드 없이 유지 되는 방법.
+          // 2. 인풋값을 바로 스토리지에 저장하는 방법.
+          window.history.go(1);
+          window.onbeforeunload = null;
+        }
+      }
+      } else {
+        window.onpopstate = () => {};
+      }
+  }, [title, content]);
 
   return (
     <div className="writePage">
@@ -68,11 +77,11 @@ const WritePage = () => {
         {/* 내용 작성 영역 */}
         <div className="inputs">
             <div className="input_title">
-            <input type="text" id="title" placeholder=""></input>
+            <input type="text" id="title" placeholder="" ref={titleRef} onChange={(e) => setTitle(e.target.value)}></input>
             <label className="title_label" htmlFor="title">Title</label>
             </div>
             <div className="content_container">
-            <textarea className="content" placeholder="글 작성" spellCheck="false"></textarea>
+            <textarea className="content" placeholder="글 작성" spellCheck="false" onChange={(e) => setContent(e.target.value)}></textarea>
             </div>
             <div className="buttons">
             <button className="write_button" onClick={() => ttest(!test)}><span>공유</span></button>
