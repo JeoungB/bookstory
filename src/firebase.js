@@ -8,7 +8,7 @@ import {
   signOut,
   onAuthStateChanged
 } from "firebase/auth";
-import { collection, getDocs, getFirestore, query, where, doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { collection, getDocs, getFirestore, query, where, doc, updateDoc, arrayUnion, arrayRemove, addDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -80,4 +80,9 @@ export const likeBookHandler = async (state, click, bookData, userEmail) => {
   } catch (error) {
     console.log("가져오기 실패", error);
   }
+}
+
+// 게시글 저장
+export const submitPost = async (data) => {
+  await addDoc(collection(database, "contents"), data);
 }

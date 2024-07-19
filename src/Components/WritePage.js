@@ -6,37 +6,76 @@ import 'swiper/css';
 import { useSelector } from "react-redux";
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { submitPost } from "../firebase";
 // import 'swiper/css/scrollbar';
 
 const WritePage = () => {
 
   const titleRef = useRef("");
-  const [test, ttest] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const items = useSelector((state) => state.selectBooks);
+  const userEmail = useSelector((state) => state.user);
+  const imageUrl = useSelector((state) => state.userProfileImg);
+  const {name} = useParams();
+  const currentDate = new Date();
   let navigate = useNavigate();
 
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
+  const day = currentDate.getDate();
+  const hours = currentDate.getHours();
+  const minutes = currentDate.getMinutes();
+  const seconds = currentDate.getSeconds();
+
+  let uniqId = 
+  JSON.stringify(year) + 
+  JSON.stringify(month) + 
+  JSON.stringify(day) +  
+  JSON.stringify(hours) +
+  JSON.stringify(minutes) +
+  JSON.stringify(seconds);
+
   useEffect(() => {
-    // 우선 타이틀만 적용 테스트.
-    if(titleRef.current.value) {
-      // onopopstate : 앞, 뒤로가기 이벤트를 감지하는 이벤트.
-      window.onpopstate = () => {
-        if(window.confirm("go?")) {
-          // 뒤로가기 적용.
-        } else {
-          // 뒤로가기 취소시 작성중 내용 없어짐 이슈.
-          // 1. 취소시 리로드 없이 유지 되는 방법.
-          // 2. 인풋값을 바로 스토리지에 저장하는 방법.
-          window.history.go(1);
-          window.onbeforeunload = null;
-        }
+    // 새로고침 시 저장 여부 확인
+    // 다시 테스트 공유 후 화면 끄려고 하면 팝업창 띄워짐 이슈
+    if(title || content) {
+      // history state는 현재 이동해온 페이지 정보가 stack으로 저장됨.
+      // 뒤로가기 발생 시 stack의 가장 위에 있는 페이지로 이동하게됨.
+      // window.history.pushState 를 사용해 최상위에 현재 페이지를 저장함.
+      window.onbeforeunload = () => {
+        return '';
       }
-      } else {
-        window.onpopstate = () => {};
-      }
+    }
+
+    return () => {
+      window.onbeforeunload = null;
+    }
   }, [title, content]);
+
+  const cancelPage = () => {
+    if(window.confirm("작성을 취소 하시겠습니까?")) {
+       navigate(-1);
+    } else {
+      // 머무르기
+    }
+  }
+
+  const submitContent = () => {
+    let data = {
+      id : uniqId,
+      title : title,
+      content : content,
+      books : [...items],
+      userEmail : userEmail,
+      userImg : imageUrl,
+      name : name,
+      comment : []
+    }
+
+    submitPost(data);
+  }
 
   return (
     <div className="writePage">
@@ -84,8 +123,8 @@ const WritePage = () => {
             <textarea className="content" placeholder="글 작성" spellCheck="false" onChange={(e) => setContent(e.target.value)}></textarea>
             </div>
             <div className="buttons">
-            <button className="write_button" onClick={() => ttest(!test)}><span>공유</span></button>
-            <button className="cancel_button" onClick={() => ttest(!test)}><span>취소</span></button>
+            <button className="write_button" onClick={() => {submitContent()}}><span>공유</span></button>
+            <button className="cancel_button" onClick={() => {cancelPage()}}><span>취소</span></button>
             </div>
         </div>
       </div>
