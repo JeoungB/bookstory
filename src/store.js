@@ -100,8 +100,6 @@ let userProfileImg = createSlice({
 });
 
 // 공유할 책 선택
-// 선택한 경우 useState에 저장된 후 공유하기 누르면 이곳에 저장.
-// 작성 페이지 나가거나 공유를 취소할 경우 빈 배열로 초기화해야함.
 let selectBooks = createSlice({
     name : 'selectBooks',
     initialState : [],
@@ -117,12 +115,27 @@ let selectBooks = createSlice({
     }
 });
 
+// 게시글 정보
+let posts = createSlice({
+    name : "posts",
+    initialState : [],
+    reducers : {
+        getPosts(state, action) {
+            let newData = [...action.payload];
+            const set = new Set(newData);
+            state = [...set];
+            return state;
+        }
+    }
+})
+
 export let { loginUser,  logoutUser } = user.actions;
 export let { addLikeBook, removeLikeBook, logoutLikeBook } = likeBook.actions;
 export let { addLikeBooks, removeLikeBooks, logoutLikeBooks } = likeBooks.actions;
 export let { searchBookData, logoutSearchData } = searchBook.actions;
 export let { setProfileImg, clearProfileImg } = userProfileImg.actions;
 export let { selectBook, deleteSelectBooks } = selectBooks.actions;
+export let { getPosts } = posts.actions;
 
 const reducers = combineReducers({
     user : user.reducer,
@@ -131,6 +144,7 @@ const reducers = combineReducers({
     searchBook : searchBook.reducer,
     userProfileImg : userProfileImg.reducer,
     selectBooks : selectBooks.reducer,
+    posts : posts.reducer,
 });
 
 const persistConfig = {

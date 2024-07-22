@@ -1,8 +1,58 @@
 .main {
-    width: 100px;
     position: absolute;
-    top: 0;
+    left: 240px;
+    width: calc(100% - 240px);
+    height: 100%;
+}
+
+/* 전체 게시글 */
+.main_contents {
+    position: relative;
     left: 50%;
-    transform: translate(-35%, 0%);
-    background-color: rgb(255, 189, 189);
+    transform: translate(-50%);
+    width: 800px;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: red;
+}
+
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.main_contents::-webkit-scrollbar {
+    display: none;
+}
+
+.main_contents {
+    -ms-overflow-style: none;
+    /* 인터넷 익스플로러 */
+    scrollbar-width: none;
+    /* 파이어폭스 */
+}
+
+/* 게시글 */
+.posts {
+    width: 100%;
+    height: 500px;
+    margin-bottom: 100px;
+    display: flex;
+    background-color: aqua;
+}
+
+.posts .img_content {
+    width: 50%;
+    height: 100%;
+    background-color: blueviolet;
+}
+
+.post_user {
+    width: 100%;
+    height: 50px;
+    background-color: rgb(28, 64, 170);
+}
+
+.posts .comments {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    background-color: rgb(92, 226, 43);
 }

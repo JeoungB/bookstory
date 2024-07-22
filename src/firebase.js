@@ -51,7 +51,7 @@ export const currentUser = () => {
   })
 };
 
-// 책 좋아요
+// 책 좋아요 및 취소
 export const likeBookHandler = async (state, click, bookData, userEmail) => {
   try{
     const books = await query(collection(database, "users"), where("email", "==", `${userEmail}`));
@@ -82,7 +82,21 @@ export const likeBookHandler = async (state, click, bookData, userEmail) => {
   }
 }
 
-// 게시글 저장
-export const submitPost = async (data) => {
-  await addDoc(collection(database, "contents"), data);
+// 게시글 저장 및 삭제
+export const submitPost = async (postData, click) => {
+  const post = await query(collection(database, "contents"), where("name", "==", "post"));
+  const postdata = await getDocs(post);
+  postdata.forEach((post) => {
+    const getDatas = post.data().posts;
+    const data = doc(database, "contents", post.id);
+
+    // 게시글 삭제용
+    const sameData = getDatas.find((data) => {
+      return data.id === click;
+    });
+
+    updateDoc(data, {
+      posts : arrayUnion(postData)
+    });
+  }) 
 }

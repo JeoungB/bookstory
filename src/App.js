@@ -14,7 +14,7 @@ function App() {
     try{
       const users = await getDocs(collection(database, "users"));
       users.forEach((user) => {
-        console.log("유저 데이터", user.data());
+        console.log("유저 데이터", user.data().email);
         console.log("유저 고유 ID", user.id);
       })
     }catch(error) {
