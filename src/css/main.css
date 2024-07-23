@@ -32,7 +32,7 @@
 /* 게시글 */
 .posts {
     width: 100%;
-    height: 500px;
+    height: 550px;
     margin-bottom: 100px;
     display: flex;
     background-color: aqua;
@@ -44,15 +44,112 @@
     background-color: blueviolet;
 }
 
-.post_user {
-    width: 100%;
-    height: 50px;
-    background-color: rgb(28, 64, 170);
-}
-
+/*게시글 정보 전체*/
 .posts .comments {
     position: relative;
     width: 50%;
     height: 100%;
     background-color: rgb(92, 226, 43);
+}
+
+/* 게시글 유저 정보 */
+.post_user {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(28, 64, 170);
+}
+
+.user_icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: aqua;
+}
+
+/*게시글 댓글 영역*/
+.post_content {
+    width: 100%;
+    height: calc(100% - 150px);
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.post_content::-webkit-scrollbar {
+    display: none;
+}
+
+.post_content {
+    -ms-overflow-style: none;
+    /* 인터넷 익스플로러 */
+    scrollbar-width: none;
+    /* 파이어폭스 */
+}
+
+/*게시글 푸터 영역*/
+.post_footer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: rgb(20, 90, 255);
+}
+
+.footer_icon {
+    width: 100%;
+    height: 50px;
+    background-color: azure;
+}
+
+.footer_input {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+/* 댓글 입력칸 */
+.footer_input > textarea {
+    position: relative;
+    width: 80%;
+    height: 20px;
+    padding-left: 20px;
+    padding-top: 5px;
+    border: none;
+    resize: none;
+    border-top: 1px solid rgba(160, 160, 160, 0.534);
+}
+
+.footer_input > textarea::placeholder {
+    font-weight: 600;
+    position: relative;
+    top: -2px;
+    color: rgba(128, 128, 128, 0.523);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer_input > textarea:focus {
+    outline: none;
+}
+
+/* 게시 버튼 */
+.comment_button {
+    width: 17%;
+    height: 54px;
+    text-align: center;
+    font-weight: 600;
+    color: rgba(249, 226, 17, 0.658);
+    background-color: rgb(255, 255, 255);
+    border-top: 1px solid rgba(160, 160, 160, 0.534);
+}
+
+.comment_button > span {
+    position: relative;
+    top: 35%;
+    cursor: pointer;
+}
+
+.comment_button > span:hover {
+    color: rgba(249, 226, 17);
 }
