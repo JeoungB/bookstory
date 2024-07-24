@@ -23,6 +23,13 @@ const Main = () => {
         submitButton.current.style.height = '29px';
         textarea.current.style.height = textarea.current.scrollHeight + 'px';
         submitButton.current.style.height = textarea.current.scrollHeight + 'px';
+
+        if(textarea.current.scrollHeight <= 67) {
+            iconArea.current.style.top = '0px'
+             iconArea.current.style.top = -(textarea.current.scrollHeight - 24) + 'px';
+        }
+
+        console.log(textarea.current.scrollHeight)
     }
 
     console.log(posts)
@@ -63,6 +70,38 @@ const Main = () => {
                         <h2>게시글 제목</h2>
                         <p>책 정보 입니다.</p>
 
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
+                        <p>댓글</p>
                         <p>댓글</p>
                         <p>댓글</p>
                         <p>댓글</p>
