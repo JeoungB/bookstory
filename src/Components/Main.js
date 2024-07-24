@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../css/main.css";
 import { getDocs, collection } from "firebase/firestore";
 import { database } from "../firebase";
@@ -11,16 +11,29 @@ const Main = () => {
     // ex ) 인스타그램.
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts);
+    const [comment, setComment] = useState("");
     const footer = document.querySelector(".post_footer"); // top -num 늘어남
-    const iconArea = document.querySelector(".footer_icon"); // 높이 늘어남 20씩
-    const textarea = document.querySelector(".footer_input > textarea"); // 높이 늘어남
-    const submitButton = document.querySelector(".comment_button"); // 높이 늘어남
+    const textarea = useRef();
+    const submitButton = useRef();
+    const iconArea = useRef();
+
+    // 입력 값만큼 textarea, button 높이 조절.
+    const handleResizeHeight = () => {
+        textarea.current.style.height = '20px';
+        submitButton.current.style.height = '29px';
+        textarea.current.style.height = textarea.current.scrollHeight + 'px';
+        submitButton.current.style.height = textarea.current.scrollHeight + 'px';
+    }
 
     console.log(posts)
 
     useEffect(() => {
         //getContents();
     }, []);
+
+    useEffect(() => {
+        handleResizeHeight();
+    }, [comment]);
 
     // 파이어 베이스에서 게시글 정보 가져오기.
     const getContents = async () => {
@@ -59,10 +72,13 @@ const Main = () => {
                         </div>
 
                         <div className="post_footer">
-                            <div className="footer_icon"></div>
+                            <div className="footer_icon" ref={iconArea}>
+                                <p>좋아요 30개</p>
+                                <p>헤헤 30개</p>
+                            </div>
                             <div className="footer_input">
-                                <textarea type="text" rows={1} spellCheck="false" placeholder="댓글 달기"></textarea>
-                                <div className="comment_button"><span>게시</span></div>
+                                <textarea type="text" ref={textarea} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment(e.target.value)}></textarea>
+                                <div className="comment_button" ref={submitButton}><span>게시</span></div>
                             </div>
                         </div>
                     </div>
