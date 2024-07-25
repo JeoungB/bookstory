@@ -52,19 +52,24 @@
     background-color: rgb(92, 226, 43);
 }
 
-/* 게시글 유저 정보 */
+/* 게시글쓴 유저 정보 */
 .post_user {
     width: 100%;
     height: 50px;
     display: flex;
     align-items: center;
-    background-color: rgb(28, 64, 170);
+    padding-left: 20px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.525);
+    background-color: rgb(255, 255, 255);
 }
 
+/* 게시글쓴 유저 프로필 */
 .user_icon {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 30px;
+    margin-right: 10px;
     background-color: aqua;
 }
 
@@ -88,6 +93,82 @@
     /* 파이어폭스 */
 }
 
+/* 댓글 영역 사용자 정보 */
+.user_comment {
+    width: 100%;
+    position: relative;
+    transform: translate(0, -10px);
+    background-color: #fff;
+    align-items: center;
+}
+
+/* 게시물 작성자 내용 */
+.user_content {
+    position: relative;
+    top: -31px;
+    left: 68px;
+    line-height: 23px;
+    padding-right: 78px;
+}
+
+/* 게시물 작성자 이름 */
+.user_content > span {
+    position: relative;
+    left: -3px;
+    font-weight: 600;
+}
+
+/* 게시물 작성자 프로필 */
+.icon_comment {
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+    transform: translate(0, 10px);
+    margin: 10px 0 10px 20px;
+    background-color: aqua;
+}
+
+/* . . . */
+.under {
+    position: relative;
+    left: 64px;
+    padding-bottom: 8px;
+    width: 10px;
+    color: gray;
+}
+
+/* 게시물 날짜 */
+.user_comment > p {
+    position: relative;
+    left: 62px;
+    color: gray;
+}
+
+/* 댓글 */
+.comment_users li {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+
+}
+
+/* 댓글 쓴 유저 프로필 */
+.comment_user-profile {
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+    background-color: aqua;
+}
+.comment_user-content {
+    position: relative;
+    left: 10px;
+}
+/* 댓글 쓴 유저 이름 */
+.comment_user-content > span {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
 /*게시글 푸터 영역*/
 .post_footer {
     position: relative;
@@ -95,10 +176,12 @@
     background-color: rgb(20, 90, 255);
 }
 
+/* 게시물 아이콘 영역 */
 .footer_icon {
     position: relative;
     width: 100%;
     height: 75px;
+    transform: translate(0, 0);
     background-color: azure;
 }
 

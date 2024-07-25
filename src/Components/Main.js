@@ -23,6 +23,16 @@ const Main = () => {
         submitButton.current.style.height = '29px';
         textarea.current.style.height = textarea.current.scrollHeight + 'px';
         submitButton.current.style.height = textarea.current.scrollHeight + 'px';
+
+        if(textarea.current.scrollHeight <= 50) {
+            iconArea.current.style.top = "25px";
+            iconArea.current.style.top = -(textarea.current.scrollHeight - 25) + 'px';
+        }
+
+        if(textarea.current.scrollHeight === 67) {
+            iconArea.current.style.top = "25px";
+            iconArea.current.style.top = -(textarea.current.scrollHeight - 38) + 'px';
+        }
     }
 
     console.log(posts)
@@ -54,24 +64,43 @@ const Main = () => {
                     <div className="img_content"></div>
 
                     <div className="comments">
+                        {/* 게시물 작성자 정보 */}
                         <div className="post_user">
                             <div className="user_icon"></div>
                             <p>유저 이름</p>
                         </div>
 
                         <div className="post_content">
-                        <h2>게시글 제목</h2>
-                        <p>책 정보 입니다.</p>
 
-                        <p>댓글</p>
-                        <p>댓글</p>
-                        <p>댓글</p>
-                        <p>댓글</p>
-                        <p>댓글</p>
-                        <p>댓글</p>
+                        {/* 게시물 작성자 내용 */}
+                        <div className="user_comment">
+                            <div className="icon_comment"></div>
+                            <div className="user_content"><span className="post_user-name">유저 이름</span> 작성 내용</div>
+                            <div className="under">. . .</div>
+                            <p>12일전</p>
+                        </div>
+
+                        {/* 댓글쓴 유저들 */}
+                        <ul className="comment_users">
+                            <li>
+                                <div className="comment_user-profile"></div>
+                                <div className="comment_user-content"><span className="comment_user-name">유저 이름</span>작성 내용</div>
+                            </li>
+
+                            <li>
+                                <div className="comment_user-profile"></div>
+                                <div className="comment_user-content"><span className="comment_user-name">유저 이름</span>작성 내용</div>
+                            </li>
+
+                            <li>
+                                <div className="comment_user-profile"></div>
+                                <div className="comment_user-content"><span className="comment_user-name">유저 이름</span>작성 내용</div>
+                            </li>
+                        </ul>
                         </div>
 
                         <div className="post_footer">
+                            {/* 게시물 좋아요 */}
                             <div className="footer_icon" ref={iconArea}>
                                 <p>좋아요 30개</p>
                                 <p>헤헤 30개</p>
