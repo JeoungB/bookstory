@@ -28,10 +28,11 @@
     line-height: 40px;
     border-radius: 10px;
     cursor: pointer;
+    transition: .3s;
 }
 
-.sidebar h2:hover {
-    background-color: rgba(177, 177, 177, 0.466);
+.sidebar h2:hover:not(:last-child) {
+    transform: scale(1.2) !important;
 }
 
 /* 사이드 바 접힌 부분 */

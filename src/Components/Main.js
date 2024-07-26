@@ -35,6 +35,19 @@ const Main = () => {
         }
     }
 
+    // 댓글 작성 시 게시 버튼 색상 활성화.
+    const buttonActivate = () => {
+        if(comment) {
+            submitButton.current.style.color = 'rgb(255, 200, 0)'
+        }
+
+        if(!comment) {
+            submitButton.current.style.color = 'rgba(249, 226, 17, 0.658)'
+        }
+    }
+
+    buttonActivate();
+
     console.log(posts)
 
     useEffect(() => {
@@ -84,7 +97,8 @@ const Main = () => {
                         <ul className="comment_users">
                             <li>
                                 <div className="comment_user-profile"></div>
-                                <div className="comment_user-content"><span className="comment_user-name">유저 이름</span>작성 내용</div>
+                                <div className="user_content comment_user-content"><span className="post_user-name comment_user-name">유저 이름</span>하하하하하하하하하하하</div>
+                                <div className="comment_good">추천버튼</div>
                             </li>
 
                             <li>
@@ -106,7 +120,7 @@ const Main = () => {
                                 <p>헤헤 30개</p>
                             </div>
                             <div className="footer_input">
-                                <textarea type="text" ref={textarea} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment(e.target.value)}></textarea>
+                                <textarea type="text" maxLength={26}  ref={textarea} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment(e.target.value)}></textarea>
                                 <div className="comment_button" ref={submitButton}><span>게시</span></div>
                             </div>
                         </div>

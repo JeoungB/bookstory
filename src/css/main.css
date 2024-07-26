@@ -141,6 +141,7 @@
 .user_comment > p {
     position: relative;
     left: 62px;
+    margin-bottom: 15px;
     color: gray;
 }
 
@@ -149,24 +150,45 @@
     display: flex;
     align-items: center;
     padding-left: 20px;
-
+    margin-bottom: 30px;
+    top: 0;
+    overflow: hidden;
 }
 
 /* 댓글 쓴 유저 프로필 */
 .comment_user-profile {
-    width: 35px;
-    height: 35px;
+    min-width: 35px;
+    min-height: 35px;
     border-radius: 30px;
+    transform: translate(0, 0);
     background-color: aqua;
 }
+
+/* 댓글 */
 .comment_user-content {
     position: relative;
-    left: 10px;
+    left: 13px;
+    top: -1px;
+    background-color: red;
 }
 /* 댓글 쓴 유저 이름 */
 .comment_user-content > span {
     font-weight: 600;
     margin-right: 10px;
+}
+
+/* 댓글 좋아요 버튼 */
+.comment_good {
+    position: absolute;
+    right: 5px;
+}
+
+.comment_line {
+    position: relative;
+    top: 0;
+    width: 100px;
+    height: 5px;
+    background-color: black;
 }
 
 /*게시글 푸터 영역*/
@@ -237,5 +259,5 @@
 }
 
 .comment_button > span:hover {
-    color: rgb(255, 230, 0);
+    color: rgb(255, 200, 0);
 }
