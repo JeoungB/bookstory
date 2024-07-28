@@ -49,7 +49,7 @@
     position: relative;
     width: 50%;
     height: 100%;
-    background-color: rgb(92, 226, 43);
+    background-color: rgb(255, 255, 255);
 }
 
 /* 게시글쓴 유저 정보 */
@@ -102,13 +102,18 @@
     align-items: center;
 }
 
-/* 게시물 작성자 내용 */
+/* 작성자 내용 */
 .user_content {
     position: relative;
     top: -31px;
     left: 68px;
     line-height: 23px;
-    padding-right: 78px;
+    /* padding-right: 78px; */
+    background-color: aqua;
+}
+
+.user_content:not(.comment_user-content) {
+    width: 80%;
 }
 
 /* 게시물 작성자 이름 */
@@ -145,31 +150,39 @@
     color: gray;
 }
 
-/* 댓글 */
 .comment_users li {
     display: flex;
+    align-items: center;
+}
+
+/* 댓글 */
+.comment_users .comments_content {
+    width: 100%;
     align-items: center;
     padding-left: 20px;
     margin-bottom: 30px;
     top: 0;
-    overflow: hidden;
+    /* flex-direction: row; */
+    /* flex-shrink: 1; */
+    background-color: red;
 }
 
 /* 댓글 쓴 유저 프로필 */
 .comment_user-profile {
-    min-width: 35px;
-    min-height: 35px;
+    width: 35px;
+    height: 35px;
     border-radius: 30px;
     transform: translate(0, 0);
     background-color: aqua;
 }
 
-/* 댓글 */
+/* 댓글 내용 */
 .comment_user-content {
     position: relative;
-    left: 13px;
-    top: -1px;
-    background-color: red;
+    left: 45px;
+    top: -30px;
+    width: 75%;
+    background-color: beige;
 }
 /* 댓글 쓴 유저 이름 */
 .comment_user-content > span {
@@ -179,16 +192,30 @@
 
 /* 댓글 좋아요 버튼 */
 .comment_good {
-    position: absolute;
-    right: 5px;
+    position: relative;
+    width: 50px;
+    transform: translate(0, -100%);
+    float: right;
+    margin-right: 10px;
+    background-color: aqua;
 }
 
-.comment_line {
+/* 댓글 날짜 */
+.comment_date {
     position: relative;
-    top: 0;
-    width: 100px;
-    height: 5px;
-    background-color: black;
+    display: flex;
+    align-items: center;
+    color: gray;
+    transform: translate(60px, 30px);
+}
+
+/* 댓글 날짜 라인 */
+.comment_date .date_line {
+    position: relative;
+    transform: translate(-12px);
+    width: 80px;
+    height: 2px;
+    background-color: rgb(146, 146, 146);
 }
 
 /*게시글 푸터 영역*/
@@ -203,7 +230,8 @@
     width: 100%;
     height: 75px;
     transform: translate(0, 0);
-    background-color: azure;
+    border-top: 1px solid rgba(128, 128, 128, 0.445);
+    background-color: rgb(255, 255, 255);
 }
 
 .footer_input {

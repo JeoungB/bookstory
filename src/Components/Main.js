@@ -46,14 +46,19 @@ const Main = () => {
         }
     }
 
-    buttonActivate();
-
     console.log(posts)
 
+    // 게시물 정보 가져오기.
     useEffect(() => {
         //getContents();
     }, []);
 
+    // textarea 존재 시 게시 버튼 활성화.
+    useEffect(() => {
+        buttonActivate();
+    }, [comment]);
+
+    // textarea 글자수에 따른 높이 조절.
     useEffect(() => {
         handleResizeHeight();
     }, [comment]);
@@ -88,28 +93,24 @@ const Main = () => {
                         {/* 게시물 작성자 내용 */}
                         <div className="user_comment">
                             <div className="icon_comment"></div>
-                            <div className="user_content"><span className="post_user-name">유저 이름</span> 작성 내용</div>
+                            <div className="user_content"><span className="post_user-name">유저 이름</span> 작성 내용작성 내용작성 내용작성 내용작성 내용</div>
                             <div className="under">. . .</div>
                             <p>12일전</p>
                         </div>
 
-                        {/* 댓글쓴 유저들 */}
+                        {/* 댓글 */}
                         <ul className="comment_users">
-                            <li>
-                                <div className="comment_user-profile"></div>
-                                <div className="user_content comment_user-content"><span className="post_user-name comment_user-name">유저 이름</span>하하하하하하하하하하하</div>
-                                <div className="comment_good">추천버튼</div>
-                            </li>
 
                             <li>
+                                <div className="comments_content">
                                 <div className="comment_user-profile"></div>
-                                <div className="comment_user-content"><span className="comment_user-name">유저 이름</span>작성 내용</div>
-                            </li>
+                                <div className="user_content comment_user-content"><span className="post_user-name comment_user-name">유저 이름</span>댓댓글댓댓글댓댓글댓 </div>
+                                <p className="comment_date"><div className="date_line"></div>3일전</p>
+                                </div>
 
-                            <li>
-                                <div className="comment_user-profile"></div>
-                                <div className="comment_user-content"><span className="comment_user-name">유저 이름</span>작성 내용</div>
+                                {/* <div className="comment_good">추천</div> */}
                             </li>
+                            
                         </ul>
                         </div>
 
