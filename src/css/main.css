@@ -182,22 +182,28 @@
     left: 45px;
     top: -30px;
     width: 75%;
+    max-height: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
     background-color: beige;
 }
+
+/* 댓글 더보기 */
+.more_comment {
+    position: relative;
+    cursor: pointer;
+    display: none;
+    color: gray;
+    transform: translate(330px, -65px);
+}
+
 /* 댓글 쓴 유저 이름 */
 .comment_user-content > span {
     font-weight: 600;
     margin-right: 10px;
-}
-
-/* 댓글 좋아요 버튼 */
-.comment_good {
-    position: relative;
-    width: 50px;
-    transform: translate(0, -100%);
-    float: right;
-    margin-right: 10px;
-    background-color: aqua;
 }
 
 /* 댓글 날짜 */
@@ -206,7 +212,7 @@
     display: flex;
     align-items: center;
     color: gray;
-    transform: translate(60px, 30px);
+    transform: translate(60px, -10px);
 }
 
 /* 댓글 날짜 라인 */

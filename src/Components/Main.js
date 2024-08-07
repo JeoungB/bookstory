@@ -12,10 +12,16 @@ const Main = () => {
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts);
     const [comment, setComment] = useState("");
+    const [moreCommentButton, setMoreCommentButton] = useState(false);
     const footer = document.querySelector(".post_footer"); // top -num 늘어남
     const textarea = useRef();
     const submitButton = useRef();
     const iconArea = useRef();
+    // 각각의 배열을 어떻게 구분 할 것인가
+    // 1. ref 를 배열로 관리한다
+    // 2. 각 함수에 댓글의 id나 this 등을 전달하여 알려준다.
+    const userComment = useRef([]);
+    const moreButton = useRef();
 
     // 입력 값만큼 textarea, button 높이 조절.
     const handleResizeHeight = () => {
@@ -46,11 +52,27 @@ const Main = () => {
         }
     }
 
+    // 댓글 더보기
+    const moreComment = () => {
+        userComment.current.style.height = '500px';
+        userComment.current.style.WebkitLineClamp = '10';
+        setMoreCommentButton(true);
+    }
+
+    const foldComment = () => {
+        userComment.current.style.height = '115px';
+        userComment.current.style.WebkitLineClamp = '5';
+        setMoreCommentButton(false);
+    }
+
     console.log(posts)
 
     // 게시물 정보 가져오기.
     useEffect(() => {
         //getContents();
+        if(userComment.current.scrollHeight > 115) {
+            moreButton.current.style.display = 'block';
+        }
     }, []);
 
     // textarea 존재 시 게시 버튼 활성화.
@@ -104,11 +126,19 @@ const Main = () => {
                             <li>
                                 <div className="comments_content">
                                 <div className="comment_user-profile"></div>
-                                <div className="user_content comment_user-content"><span className="post_user-name comment_user-name">유저 이름</span>댓댓글댓댓글댓댓글댓 </div>
+                                <div className="user_content comment_user-content" ref={userComment}><span className="post_user-name comment_user-name">유저 이름</span>댓댓댓댓댓댓댓댓댓댓댓댓댓댓댓댓글댓댓글글댓댓글글댓댓글글댓댓글글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓글댓글</div>
                                 <p className="comment_date"><div className="date_line"></div>3일전</p>
+                                <p className="more_comment" ref={moreButton} onClick={() => {moreComment()}}>더보기</p>
                                 </div>
+                            </li>
 
-                                {/* <div className="comment_good">추천</div> */}
+                            <li>
+                                <div className="comments_content">
+                                <div className="comment_user-profile"></div>
+                                <div className="user_content comment_user-content" ref={userComment}><span className="post_user-name comment_user-name">유저 이름</span>댓댓댓댓댓댓댓댓댓댓댓댓댓댓댓댓댓글댓댓글글댓댓글글댓댓글글댓댓글글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓댓글댓글댓글</div>
+                                <p className="comment_date"><div className="date_line"></div>3일전</p>
+                                <p className="more_comment" ref={moreButton} onClick={() => {moreComment()}}>더보기</p>
+                                </div>
                             </li>
                             
                         </ul>
@@ -121,7 +151,7 @@ const Main = () => {
                                 <p>헤헤 30개</p>
                             </div>
                             <div className="footer_input">
-                                <textarea type="text" maxLength={26}  ref={textarea} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment(e.target.value)}></textarea>
+                                <textarea type="text"  ref={textarea} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment(e.target.value)}></textarea>
                                 <div className="comment_button" ref={submitButton}><span>게시</span></div>
                             </div>
                         </div>
