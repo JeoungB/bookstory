@@ -182,7 +182,7 @@
     left: 45px;
     top: -30px;
     width: 75%;
-    max-height: 140px;
+    max-height: 5000px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -195,7 +195,6 @@
 .more_comment {
     position: relative;
     cursor: pointer;
-    display: none;
     color: gray;
     transform: translate(330px, -65px);
 }
@@ -203,7 +202,7 @@
 /* 댓글 쓴 유저 이름 */
 .comment_user-content > span {
     font-weight: 600;
-    margin-right: 10px;
+    margin: 0px -2px 0px 3px;
 }
 
 /* 댓글 날짜 */
