@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../store";
+import { loginUser, loginUserName } from "../store";
 import "../css/login.css";
 import { useNavigate } from "react-router-dom";
 import { collection, query, getDocs, where } from "firebase/firestore";
@@ -41,6 +41,7 @@ const Login = () => {
           const emailUser = await getDocs(user);
           emailUser.forEach((user) => {
             alert(`환영합니다 ${user.data().name}님`);
+            dispatch(loginUserName(user.data().name));
           });
           navigate('/');
         } catch(error) {

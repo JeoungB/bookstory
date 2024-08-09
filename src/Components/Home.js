@@ -20,6 +20,7 @@ import {
   logoutLikeBooks,
   logoutSearchData,
   logoutUser,
+  logoutUserName,
   selectBook,
   setProfileImg,
 } from "../store";
@@ -181,6 +182,7 @@ const Home = () => {
               if (window.confirm("로그아웃 하시겠습니까?")) {
                 logout();
                 dispatch(logoutUser());
+                dispatch(logoutUserName());
                 dispatch(logoutLikeBook());
                 dispatch(logoutLikeBooks());
                 dispatch(clearProfileImg());

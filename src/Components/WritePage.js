@@ -29,6 +29,7 @@ const WritePage = () => {
   const minutes = currentDate.getMinutes();
   const seconds = currentDate.getSeconds();
 
+  // 게시글 고유 아이디
   let uniqId = 
   JSON.stringify(year) + 
   JSON.stringify(month) + 

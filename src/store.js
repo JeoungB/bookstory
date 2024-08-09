@@ -18,6 +18,23 @@ let user = createSlice({
     }
 });
 
+// 사용자 이름
+let userName = createSlice({
+    name : 'userName',
+    initialState : "",
+    reducers : {
+        loginUserName(state, action) {
+            state = action.payload;
+            return state;
+        },
+
+        logoutUserName(state) {
+            state = "";
+            return state;
+        }
+    }
+});
+
 // 좋아요한 책 정보 상태 FireBase에서 가져옴
 let likeBook = createSlice({
     name : 'likeBook',
@@ -130,6 +147,7 @@ let posts = createSlice({
 })
 
 export let { loginUser,  logoutUser } = user.actions;
+export let {loginUserName, logoutUserName} = userName.actions;
 export let { addLikeBook, removeLikeBook, logoutLikeBook } = likeBook.actions;
 export let { addLikeBooks, removeLikeBooks, logoutLikeBooks } = likeBooks.actions;
 export let { searchBookData, logoutSearchData } = searchBook.actions;
@@ -139,6 +157,7 @@ export let { getPosts } = posts.actions;
 
 const reducers = combineReducers({
     user : user.reducer,
+    userName : userName.reducer,
     likeBook : likeBook.reducer,
     likeBooks : likeBooks.reducer,
     searchBook : searchBook.reducer,
@@ -150,7 +169,7 @@ const reducers = combineReducers({
 const persistConfig = {
     key : 'user',
     storage : localStorage,
-    whitelist : ['user', 'userProfileImg', 'likeBooks', 'selectBooks']
+    whitelist : ['user', 'userName', 'userProfileImg', 'likeBooks', 'selectBooks']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -100,3 +100,26 @@ export const submitPost = async (postData, click) => {
     });
   }) 
 }
+
+// 댓글 저장
+export const submitComment = async (commentData, postIndex) => {
+  try {
+    const post = await query(collection(database, "contents"), where("name", "==", "post"));
+    const postdata = await getDocs(post);
+    postdata.forEach((post) => {
+      // 데이터 가져오기.
+      const getDatas = post.data().posts;
+      const data = doc(database, "contents", post.id);
+
+      // 가져온 데이터에서 댓글 추가
+      getDatas[postIndex].comment = [...commentData];
+
+      updateDoc(data, {
+        posts : getDatas
+      });
+
+    }) 
+  } catch (error) {
+    console.log("댓글 저장 실패", error);
+  }
+}
