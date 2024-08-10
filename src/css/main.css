@@ -276,6 +276,7 @@
 .comment_button {
     position: relative;
     width: 17%;
+    height: 25px;
     max-height: 54px;
     text-align: center;
     font-weight: 600;

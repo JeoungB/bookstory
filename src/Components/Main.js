@@ -7,21 +7,31 @@ import { getPosts } from "../store";
 
 const Main = () => {
 
+    // 댓글 달거나 다른거 업뎃할때 전체 로딩 하는거 보다는..
+    // 1. 댓글을 단다
+    // 2. 댓글이 달리면 리덕스에 먼저 저장된다.
+    // 3. 그 뒤에 파이어 베이스에 저장한다.
+    // 그러면 리로딩 안하고 바로 업댓 내용 보여주고, 리로딩해도 업뎃이 될듯.
+
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts);
     const name = useSelector((state) => state.userName);
     const imageUrl = useSelector((state) => state.userProfileImg);
     const [comment, setComment] = useState("");
     const footer = document.querySelector(".post_footer"); // top -num 늘어남
-    // useRef 이 map 안에서 여러개 생성되가지고 에러남
-    // 1. useRef 배열로 관리하는 방법 찾기.
-    // 2. useRef 안쓰고 그냥 첨부터 다시 해보기.
     const textareaRef = useRef([]);
     const submitButton = useRef([]);
     const iconArea = useRef([]);
     const currentDate = new Date();
 
-    console.log("래", textareaRef.current[0])
+    useEffect(() => {
+        if(comment) {
+            console.log("text", textareaRef.current);
+            // 인덱스는 반복문 순회로 잡자.
+            textareaRef.current[0].style.height = '20px';
+            textareaRef.current[0].style.height = textareaRef.current[0].scrollHeight + 'px';
+        }
+    }, [comment])
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
@@ -44,7 +54,7 @@ const Main = () => {
 
     // 입력 값만큼 textarea, button 높이 조절.
     // const handleResizeHeight = () => {
-    //     textareaRef.current[0].style.height = '20px';
+    //     textareaRef.current.style.height = '20px';
     //     submitButton.current.style.height = '29px';
     //     textarea.current.style.height = textarea.current.scrollHeight + 'px';
     //     submitButton.current.style.height = textarea.current.scrollHeight + 'px';
@@ -207,13 +217,13 @@ const Main = () => {
         
                                 <div className="post_footer">
                                     {/* 게시물 좋아요 */}
-                                    <div className="footer_icon" ref={iconArea}>
+                                    <div className="footer_icon">
                                         <p>좋아요 30개</p>
                                         <p>헤헤 30개</p>
                                     </div>
                                     <div className="footer_input">
-                                        <textarea type="text" className="comment_input" ref={(e) => textareaRef.current[index] = e} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment(e.target.value)}></textarea>
-                                        <div className="comment_button" ref={submitButton} onClick={() => {commentData(index)}}><span>게시</span></div>
+                                        <textarea type="text" className="comment_input" ref={(element) => textareaRef.current[index] = element} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment(e.target.value)}></textarea>
+                                        <div className="comment_button" onClick={() => {commentData(index)}}><span>게시</span></div>
                                     </div>
                                 </div>
                             </div>
