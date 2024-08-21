@@ -25,13 +25,15 @@ const Main = () => {
     const currentDate = new Date();
 
     useEffect(() => {
-        if(comment) {
-            console.log("text", textareaRef.current);
+        if(comment.value) {
+            console.log("text", comment);
             // 인덱스는 반복문 순회로 잡자.
-            textareaRef.current[0].style.height = '20px';
-            textareaRef.current[0].style.height = textareaRef.current[0].scrollHeight + 'px';
+            textareaRef.current[comment.id].style.height = '20px';
+            submitButton.current[comment.id].style.height = '29px';
+            textareaRef.current[comment.id].style.height = textareaRef.current[comment.id].scrollHeight + 'px';
+            submitButton.current[comment.id].style.height = textareaRef.current[comment.id].scrollHeight + 'px';
         }
-    }, [comment])
+    }, [comment.value])
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
@@ -70,48 +72,18 @@ const Main = () => {
     //     }
     // }
 
-    const handleResizeHeight = () => {
-        let textInput = document.querySelector('.comment_input');
-        let submitButton = document.querySelector('.comment_button');
-        textInput.style.height = '20px';
-        submitButton.style.height = '29px';
-        textInput.style.height = textInput.scrollHeight + 'px';
-        submitButton.style.height = textInput.scrollHeight + 'px';
-
-        // if (textInput.scrollHeight <= 50) {
-        //     iconArea.current.style.top = "25px";
-        //     iconArea.current.style.top = -(textInput.scrollHeight - 25) + 'px';
-        // }
-
-        // if (textInput.scrollHeight === 67) {
-        //     iconArea.current.style.top = "25px";
-        //     iconArea.current.style.top = -(textarea.current.scrollHeight - 38) + 'px';
-        // }
-    }
-
     // 댓글 상태 관리
     const commentData = (index) => {
         let commentDatas = {
             id : uniqId,
             name : name,
             userImg : imageUrl,
-            comment : comment,
+            comment : comment.value,
             day : today
         }
 
         submitComment(commentDatas, index);
     }
-
-    // 댓글 작성 시 게시 버튼 색상 활성화.
-    // const buttonActivate = () => {
-    //     if (comment) {
-    //         submitButton.current.style.color = 'rgb(255, 200, 0)'
-    //     }
-
-    //     if (!comment) {
-    //         submitButton.current.style.color = 'rgba(249, 226, 17, 0.658)'
-    //     }
-    // }
 
     const moreComment = (target) => {
         let userComment = document.querySelectorAll('.comment_users > li .comment_user-content');
@@ -143,14 +115,16 @@ const Main = () => {
     }, []);
 
     // textarea 존재 시 게시 버튼 활성화.
-    // useEffect(() => {
-    //     buttonActivate();
-    // }, [comment]);
+    useEffect(() => {
+        if (comment.value) {
+            submitButton.current[comment.id].style.color = 'rgb(255, 200, 0)'
+        }
 
-    // textarea 글자수에 따른 높이 조절.
-    // useEffect(() => {
-    //     handleResizeHeight();
-    // }, [comment]);
+        // map 에서 ? 연산자 써서 하면 될듯 코멘트 없을 때, 있을때
+        // if (!comment.value) {
+        //     submitButton.current[comment.id].style.color = 'rgba(249, 226, 17, 0.658)'
+        // }
+    }, [comment.value]);
 
     // 파이어 베이스에서 게시글 정보 가져오기.
     const getContents = async () => {
@@ -222,8 +196,11 @@ const Main = () => {
                                         <p>헤헤 30개</p>
                                     </div>
                                     <div className="footer_input">
-                                        <textarea type="text" className="comment_input" ref={(element) => textareaRef.current[index] = element} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment(e.target.value)}></textarea>
-                                        <div className="comment_button" onClick={() => {commentData(index)}}><span>게시</span></div>
+                                        <textarea type="text" className="comment_input" ref={(element) => textareaRef.current[index] = element} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment({
+                                            value : e.target.value,
+                                            id : index
+                                        })}></textarea>
+                                        <div className="comment_button" onClick={() => {commentData(index)}} ref={(element) => submitButton.current[index] = element}><span>게시</span></div>
                                     </div>
                                 </div>
                             </div>
