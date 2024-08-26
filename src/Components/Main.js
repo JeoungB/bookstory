@@ -21,17 +21,20 @@ const Main = () => {
     const footer = document.querySelector(".post_footer"); // top -num 늘어남
     const textareaRef = useRef([]);
     const submitButton = useRef([]);
-    const iconArea = useRef([]);
+    const iconAreaRef = useRef([]);
     const currentDate = new Date();
 
     useEffect(() => {
         if(comment.value) {
-            console.log("text", comment);
-            // 인덱스는 반복문 순회로 잡자.
             textareaRef.current[comment.id].style.height = '20px';
             submitButton.current[comment.id].style.height = '29px';
             textareaRef.current[comment.id].style.height = textareaRef.current[comment.id].scrollHeight + 'px';
             submitButton.current[comment.id].style.height = textareaRef.current[comment.id].scrollHeight + 'px';
+
+            if(textareaRef.current[comment.id].scrollHeight < 54.8) {
+                iconAreaRef.current[comment.id].style.top = '25px';
+                iconAreaRef.current[comment.id].style.top = -(textareaRef.current[comment.id].scrollHeight - 25) + 'px';
+            }
         }
     }, [comment.value])
 
@@ -43,7 +46,7 @@ const Main = () => {
     const seconds = currentDate.getSeconds();
     
     // 댓글 고유 아이디
-    let uniqId = 
+    let uniqId =  
     JSON.stringify(year) + 
     JSON.stringify(month) + 
     JSON.stringify(day) +  
@@ -76,6 +79,7 @@ const Main = () => {
     const commentData = (index) => {
         let commentDatas = {
             id : uniqId,
+            postId : comment.id,
             name : name,
             userImg : imageUrl,
             comment : comment.value,
@@ -113,18 +117,6 @@ const Main = () => {
     useEffect(() => {
         getContents();
     }, []);
-
-    // textarea 존재 시 게시 버튼 활성화.
-    useEffect(() => {
-        if (comment.value) {
-            submitButton.current[comment.id].style.color = 'rgb(255, 200, 0)'
-        }
-
-        // map 에서 ? 연산자 써서 하면 될듯 코멘트 없을 때, 있을때
-        // if (!comment.value) {
-        //     submitButton.current[comment.id].style.color = 'rgba(249, 226, 17, 0.658)'
-        // }
-    }, [comment.value]);
 
     // 파이어 베이스에서 게시글 정보 가져오기.
     const getContents = async () => {
@@ -191,7 +183,7 @@ const Main = () => {
         
                                 <div className="post_footer">
                                     {/* 게시물 좋아요 */}
-                                    <div className="footer_icon">
+                                    <div className="footer_icon" ref={(element) => iconAreaRef.current[index] = element}>
                                         <p>좋아요 30개</p>
                                         <p>헤헤 30개</p>
                                     </div>
@@ -200,7 +192,13 @@ const Main = () => {
                                             value : e.target.value,
                                             id : index
                                         })}></textarea>
-                                        <div className="comment_button" onClick={() => {commentData(index)}} ref={(element) => submitButton.current[index] = element}><span>게시</span></div>
+                                        {
+                                            comment.value && comment.id === index ? (
+                                                <div className="comment_button" style={{color : 'rgb(255, 200, 0)'}} onClick={() => {commentData(index)}} ref={(element) => submitButton.current[index] = element}><span>게시</span></div>
+                                            ) : (
+                                                <div className="comment_button" style={{color : 'rgba(249, 226, 17, 0.658)'}} onClick={() => {commentData(index)}} ref={(element) => submitButton.current[index] = element}><span>게시</span></div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </div>
