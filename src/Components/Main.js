@@ -24,6 +24,8 @@ const Main = () => {
     const iconAreaRef = useRef([]);
     const currentDate = new Date();
 
+    //console.log(posts)
+
     useEffect(() => {
         if(comment.value) {
             textareaRef.current[comment.id].style.height = '20px';
@@ -57,29 +59,10 @@ const Main = () => {
     // 오늘 날짜
     let today = year + '.' + month + '.' + day;
 
-    // 입력 값만큼 textarea, button 높이 조절.
-    // const handleResizeHeight = () => {
-    //     textareaRef.current.style.height = '20px';
-    //     submitButton.current.style.height = '29px';
-    //     textarea.current.style.height = textarea.current.scrollHeight + 'px';
-    //     submitButton.current.style.height = textarea.current.scrollHeight + 'px';
-
-    //     if (textarea.current.scrollHeight <= 50) {
-    //         iconArea.current.style.top = "25px";
-    //         iconArea.current.style.top = -(textarea.current.scrollHeight - 25) + 'px';
-    //     }
-
-    //     if (textarea.current.scrollHeight === 67) {
-    //         iconArea.current.style.top = "25px";
-    //         iconArea.current.style.top = -(textarea.current.scrollHeight - 38) + 'px';
-    //     }
-    // }
-
     // 댓글 상태 관리
     const commentData = (index) => {
         let commentDatas = {
             id : uniqId,
-            postId : comment.id,
             name : name,
             userImg : imageUrl,
             comment : comment.value,
@@ -88,6 +71,8 @@ const Main = () => {
 
         submitComment(commentDatas, index);
     }
+
+    // 댓글 개시하면 파이어 스토어에 저장까진 됨.
 
     const moreComment = (target) => {
         let userComment = document.querySelectorAll('.comment_users > li .comment_user-content');

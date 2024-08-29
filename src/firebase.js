@@ -112,7 +112,7 @@ export const submitComment = async (commentData, postIndex) => {
       const data = doc(database, "contents", post.id);
 
       // 가져온 데이터에서 댓글 추가
-      getDatas[postIndex].comment = [...commentData];
+      getDatas[postIndex].comment.push(commentData);
 
       updateDoc(data, {
         posts : getDatas
