@@ -109,7 +109,6 @@
     left: 68px;
     line-height: 23px;
     /* padding-right: 78px; */
-    background-color: aqua;
 }
 
 .user_content:not(.comment_user-content) {
@@ -164,7 +163,6 @@
     top: 0;
     /* flex-direction: row; */
     /* flex-shrink: 1; */
-    background-color: red;
 }
 
 /* 댓글 쓴 유저 프로필 */
@@ -188,7 +186,6 @@
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
-    background-color: beige;
 }
 
 /* 댓글 더보기 */

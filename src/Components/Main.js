@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../css/main.css";
 import { getDocs, collection } from "firebase/firestore";
 import { database, submitComment } from "../firebase";
@@ -18,13 +18,12 @@ const Main = () => {
     const name = useSelector((state) => state.userName);
     const imageUrl = useSelector((state) => state.userProfileImg);
     const [comment, setComment] = useState("");
+    const [re, setRe] = useState(1);
     const footer = document.querySelector(".post_footer"); // top -num 늘어남
     const textareaRef = useRef([]);
     const submitButton = useRef([]);
     const iconAreaRef = useRef([]);
     const currentDate = new Date();
-
-    //console.log(posts)
 
     useEffect(() => {
         if(comment.value) {
@@ -60,7 +59,7 @@ const Main = () => {
     let today = year + '.' + month + '.' + day;
 
     // 댓글 상태 관리
-    const commentData = (index) => {
+    const commentData = (index, id) => {
         let commentDatas = {
             id : uniqId,
             name : name,
@@ -68,11 +67,9 @@ const Main = () => {
             comment : comment.value,
             day : today
         }
-
         submitComment(commentDatas, index);
+        setRe(re => re * -1);
     }
-
-    // 댓글 개시하면 파이어 스토어에 저장까진 됨.
 
     const moreComment = (target) => {
         let userComment = document.querySelectorAll('.comment_users > li .comment_user-content');
@@ -101,7 +98,7 @@ const Main = () => {
     // 게시물 정보 가져오기.
     useEffect(() => {
         getContents();
-    }, []);
+    }, [re]);
 
     // 파이어 베이스에서 게시글 정보 가져오기.
     const getContents = async () => {
@@ -119,77 +116,81 @@ const Main = () => {
         <div className="main">
             <div className="main_contents">
                 {
-                    posts.map((post, index) => {
-                        return(
-                            <article className="posts" key={post.id}>
-                            <div className="img_content"></div>
-        
-                            <div className="comments">
-                                {/* 게시물 작성자 정보 */}
-                                <div className="post_user">
-                                    <div className="user_icon"></div>
-                                    <p>작성자 이름</p>
-                                </div>
-        
-                                <div className="post_content">
-        
-                                    {/* 게시물 작성자 내용 */}
-                                    <div className="user_comment">
-                                        <div className="icon_comment"></div>
-                                        <div className="user_content"><span className="post_user-name">유저 이름</span> 작성 내용작성 내용작성 내용작성 내용작성 내용</div>
-                                        <div className="under">. . .</div>
-                                        <p>12일전</p>
+                    posts ? (
+                        posts.map((post, index) => {
+                            return(
+                                <article className="posts" key={post.id}>
+                                <div className="img_content"></div>
+            
+                                <div className="comments">
+                                    {/* 게시물 작성자 정보 */}
+                                    <div className="post_user">
+                                        <div className="user_icon"></div>
+                                        <p>작성자 이름</p>
                                     </div>
-        
-                                    {/* 댓글 */}
-                                    <ul className="comment_users">
-                                        {
-                                            // 여기 포스트가 아니라 댓글을 넣어야 함
-                                            // posts.map((post) => {
-                                            //     return (
-                                            //         <li key={post.id}>
-                                            //             <div className="comments_content">
-                                            //                 <div className="comment_user-profile"></div>
-                                            //                 <div className="user_content comment_user-content"><span className="post_user-name comment_user-name">{post.name}</span>{post.comment}</div>
-                                            //                 <p className="comment_date"><div className="date_line"></div>3일전</p>
-                                            //                 {
-                                            //                     post.comment[0].length <= 82 ? <p className="more_comment" style={{display : "none"}} onClick={(e) => { moreComment(e.target); }}>더보기</p> : (
-                                            //                         <p className="more_comment" style={{display : "block"}} onClick={(e) => { moreComment(e.target); }}>더보기</p>
-                                            //                     )
-                                            //                 }
-                                            //             </div>
-                                            //         </li>
-                                            //     )
-                                            // })
-                                        }
-        
-                                    </ul>
-                                </div>
-        
-                                <div className="post_footer">
-                                    {/* 게시물 좋아요 */}
-                                    <div className="footer_icon" ref={(element) => iconAreaRef.current[index] = element}>
-                                        <p>좋아요 30개</p>
-                                        <p>헤헤 30개</p>
+            
+                                    <div className="post_content">
+            
+                                        {/* 게시물 작성자 내용 */}
+                                        <div className="user_comment">
+                                            <div className="icon_comment"></div>
+                                            <div className="user_content"><span className="post_user-name">유저 이름</span> 작성 내용작성 내용작성 내용작성 내용작성 내용</div>
+                                            <div className="under">. . .</div>
+                                            <p>12일전</p>
+                                        </div>
+            
+                                        {/* 댓글 */}
+                                        <ul className="comment_users">
+                                            {
+                                                post.comment ? (
+                                                    post.comment.map((comment, index) => {
+                                                        return (
+                                                            <li key={index}>
+                                                                <div className="comments_content">
+                                                                    <div className="comment_user-profile"></div>
+                                                                    <div className="user_content comment_user-content"><span className="post_user-name comment_user-name">{comment.name}</span>{comment.comment}</div>
+                                                                    <div className="comment_date"><div className="date_line"></div>3일전</div>
+                                                                    {
+                                                                        comment.comment.length <= 82 ? <p className="more_comment" style={{display : "none"}} onClick={(e) => { moreComment(e.target); }}>더보기</p> : (
+                                                                            <p className="more_comment" style={{display : "block"}} onClick={(e) => { moreComment(e.target); }}>더보기</p>
+                                                                        )
+                                                                    }
+                                                                </div>
+                                                            </li>
+                                                        )
+                                                    })
+                                                ) : null
+
+                                            }
+            
+                                        </ul>
                                     </div>
-                                    <div className="footer_input">
-                                        <textarea type="text" className="comment_input" ref={(element) => textareaRef.current[index] = element} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment({
-                                            value : e.target.value,
-                                            id : index
-                                        })}></textarea>
-                                        {
-                                            comment.value && comment.id === index ? (
-                                                <div className="comment_button" style={{color : 'rgb(255, 200, 0)'}} onClick={() => {commentData(index)}} ref={(element) => submitButton.current[index] = element}><span>게시</span></div>
-                                            ) : (
-                                                <div className="comment_button" style={{color : 'rgba(249, 226, 17, 0.658)'}} onClick={() => {commentData(index)}} ref={(element) => submitButton.current[index] = element}><span>게시</span></div>
-                                            )
-                                        }
+            
+                                    <div className="post_footer">
+                                        {/* 게시물 좋아요 */}
+                                        <div className="footer_icon" ref={(element) => iconAreaRef.current[index] = element}>
+                                            <p>좋아요 30개</p>
+                                            <p>헤헤 30개</p>
+                                        </div>
+                                        <div className="footer_input">
+                                            <textarea type="text" className="comment_input" ref={(element) => textareaRef.current[index] = element} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment({
+                                                value : e.target.value,
+                                                id : index
+                                            })}></textarea>
+                                            {
+                                                comment.value && comment.id === index ? (
+                                                    <div className="comment_button" style={{color : 'rgb(255, 200, 0)'}} onClick={() => {commentData(index, post.id)}} ref={(element) => submitButton.current[index] = element}><span>게시</span></div>
+                                                ) : (
+                                                    <div className="comment_button" style={{color : 'rgba(249, 226, 17, 0.658)'}} onClick={() => {commentData(index, post.id)}} ref={(element) => submitButton.current[index] = element}><span>게시</span></div>
+                                                )
+                                            }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </article>
-                        )
-                    })
+                            </article>
+                            )
+                        })
+                    ) : null
                 }
             </div>
         </div>
