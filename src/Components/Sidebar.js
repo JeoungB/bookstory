@@ -8,6 +8,7 @@ const Sidebar = () => {
     const homeRef = useRef();
     const searchRef = useRef();
 
+    // 이거 하버 디자인 좀 바꾸자. 별로임.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     useEffect(() => {
         if(window.location.pathname === "/booksearch") {
             searchRef.current.style.color = 'rgba(255, 193, 105, 0.719)';

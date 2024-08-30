@@ -4,14 +4,9 @@ import { getDocs, collection } from "firebase/firestore";
 import { database, submitComment } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../store";
+import userIcon from "../imgs/user-icon.png";
 
 const Main = () => {
-
-    // 댓글 달거나 다른거 업뎃할때 전체 로딩 하는거 보다는..
-    // 1. 댓글을 단다
-    // 2. 댓글이 달리면 리덕스에 먼저 저장된다.
-    // 3. 그 뒤에 파이어 베이스에 저장한다.
-    // 그러면 리로딩 안하고 바로 업댓 내용 보여주고, 리로딩해도 업뎃이 될듯.
 
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts);
@@ -24,6 +19,8 @@ const Main = () => {
     const submitButton = useRef([]);
     const iconAreaRef = useRef([]);
     const currentDate = new Date();
+
+    console.log("게시글 정보", posts); 
 
     useEffect(() => {
         if(comment.value) {
@@ -101,6 +98,8 @@ const Main = () => {
     }, [re]);
 
     // 파이어 베이스에서 게시글 정보 가져오기.
+    // 유저가 프로필 이미지 바꾸면 게시글중 해당 유저의 게시글을 찾아서 이미지 주소 넣어주기.!!!!!!!!!!!!!!!!!!!!!!!!
+    // 현재 유저 데이터에 프로필 주소는 입력되었지만 유저의 게시글 이미지에 업뎃 안되어있음.!!!!!!!!!!!!!!!!!!!!!!
     const getContents = async () => {
         try {
             const contents = await getDocs(collection(database, "contents"));
@@ -125,8 +124,16 @@ const Main = () => {
                                 <div className="comments">
                                     {/* 게시물 작성자 정보 */}
                                     <div className="post_user">
-                                        <div className="user_icon"></div>
-                                        <p>작성자 이름</p>
+                                        <div className="user_icon">
+                                            {
+                                                post.userImg ? (
+                                                    <img src={post.userImg} alt="사용자 프로필 이미지 입니다." />
+                                                ) : (
+                                                    <img src={userIcon} alt="사용자 프로필 이미지 입니다." />
+                                                )
+                                            }
+                                        </div>
+                                        <p>{post.name}</p>
                                     </div>
             
                                     <div className="post_content">
@@ -134,7 +141,7 @@ const Main = () => {
                                         {/* 게시물 작성자 내용 */}
                                         <div className="user_comment">
                                             <div className="icon_comment"></div>
-                                            <div className="user_content"><span className="post_user-name">유저 이름</span> 작성 내용작성 내용작성 내용작성 내용작성 내용</div>
+                                            <div className="user_content"><span className="post_user-name">{post.name}</span> 작성 내용작성 내용작성 내용작성 내용작성 내용</div>
                                             <div className="under">. . .</div>
                                             <p>12일전</p>
                                         </div>
@@ -170,7 +177,6 @@ const Main = () => {
                                         {/* 게시물 좋아요 */}
                                         <div className="footer_icon" ref={(element) => iconAreaRef.current[index] = element}>
                                             <p>좋아요 30개</p>
-                                            <p>헤헤 30개</p>
                                         </div>
                                         <div className="footer_input">
                                             <textarea type="text" className="comment_input" ref={(element) => textareaRef.current[index] = element} rows="1" spellCheck="false" placeholder="댓글 달기..." onChange={(e) => setComment({

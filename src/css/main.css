@@ -8,13 +8,10 @@
 /* 전체 게시글 */
 .main_contents {
     position: relative;
-    left: 50%;
-    transform: translate(-50%);
-    width: 800px;
+    width: 100%;
     height: 100%;
     overflow: hidden;
     overflow-y: scroll;
-    background-color: red;
 }
 
 /* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
@@ -31,10 +28,14 @@
 
 /* 게시글 */
 .posts {
-    width: 100%;
+    position: relative;
+    width: 800px;
     height: 550px;
-    margin-bottom: 100px;
+    margin: 80px 0 100px 0;
     display: flex;
+    overflow: hidden;
+    left: 50%;
+    transform: translate(-50%, 0);
     background-color: aqua;
 }
 
@@ -70,7 +71,14 @@
     height: 35px;
     border-radius: 30px;
     margin-right: 10px;
-    background-color: aqua;
+}
+
+.user_icon img {
+    width: 35px;
+    height: 35px;
+    background-size: cover;
+    border: 2px solid rgb(237, 198, 6);
+    border-radius: 30px;
 }
 
 /*게시글 댓글 영역*/
@@ -247,6 +255,7 @@
 .footer_input > textarea {
     position: relative;
     width: 80%;
+    height: 25.8px;
     max-height: 50px;
     padding-left: 20px;
     font-size: 1rem;
@@ -273,7 +282,7 @@
 .comment_button {
     position: relative;
     width: 17%;
-    height: 25px;
+    height: 29.8px;
     max-height: 54px;
     text-align: center;
     font-weight: 600;
