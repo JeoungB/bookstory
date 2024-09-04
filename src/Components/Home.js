@@ -3,7 +3,7 @@ import "../css/home.css";
 import userIcon from "../imgs/user-icon.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import {
   collection,
   doc,
@@ -12,7 +12,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { database, logout } from "../firebase";
+import { database, logout, updateUserProfileImg } from "../firebase";
 import {
   addLikeBooks,
   clearProfileImg,
@@ -47,26 +47,46 @@ const Home = () => {
 
   // 스토어에 이미지 업로드 및 데이터 베이스에 이미지 URL 저장
   const upload = async (file) => {
-    const imgRef = ref(storage, `images/${file.name}`);
+    try {
+      const imgRef = ref(storage, `images/${file.name}`);
     const user = await query(
       collection(database, "users"),
       where("email", "==", `${email}`)
     );
     const emailUser = await getDocs(user);
 
+    const post = await query(collection(database, 'contents'), where('name', '==', 'post'));
+    const getPost = await getDocs(post);
+
+    // 본인 데이터베이스에 이미지 업로드
     uploadBytes(imgRef, file).then((img) => {
       getDownloadURL(img.ref).then((url) => {
         dispatch(setProfileImg(url));
 
+        getPost.forEach((getPost) => {
+          const postData = getPost.data().posts;
+          const data = doc(database, "contents", getPost.id);
+          postData.find((postData) => {
+            if(postData.userEmail === email) {
+              postData.userImg = url
+            }
+          });
+          updateDoc(data, {
+            posts : postData
+          })
+        })
+
         emailUser.forEach((user) => {
           const data = doc(database, "users", user.id);
-
           updateDoc(data, {
             profileImg: url,
           });
         });
       });
     });
+    } catch(error) {
+      console.log('이미지 업로드 실패', error);
+    }
   };
 
   // 유저의 데이터 가져오기 (프로필 사진, 좋아요 한 책, 구독한 유저)
@@ -78,7 +98,7 @@ const Home = () => {
       );
       const emailUser = await getDocs(user);
       emailUser.forEach((user) => {
-        console.log("저장된 이미지 주소", user.data().profileImg);
+        //console.log("저장된 이미지 주소", user.data().profileImg);
 
         // 좋아요 한 책 목록 가져오기.
         if (user.data().likeBook) {
@@ -99,6 +119,7 @@ const Home = () => {
   const deleteImg = async () => {
     try {
       if (imageUrl) {
+        // 데이터 베이스에서 삭제
         const user = await query(
           collection(database, "users"),
           where("email", "==", `${email}`)
@@ -111,6 +132,8 @@ const Home = () => {
             profileImg: "",
           });
         });
+
+        // 리덕스에서 삭제
         dispatch(setProfileImg(""));
       }
     } catch (error) {
@@ -146,7 +169,7 @@ const Home = () => {
             id="upload"
             accept="image/gif, image/png, image/jpeg"
             onChange={(e) => {
-              upload(e.target.files[0]);
+                upload(e.target.files[0]);
             }}
           ></input>
           <label htmlFor="upload">
@@ -162,7 +185,12 @@ const Home = () => {
           <div
             className="delete_img"
             onClick={() => {
-              deleteImg();
+              if(imageUrl) {
+                // eslint-disable-next-line no-restricted-globals
+                if(confirm('프로필 이미지를 삭제하시겠습니까?')) {
+                  deleteImg();
+                }
+              }
             }}
           >
             X
