@@ -63,19 +63,26 @@ const Home = () => {
       getDownloadURL(img.ref).then((url) => {
         dispatch(setProfileImg(url));
 
+        // 본인 게시글 및 댓글에 이미지 업데이트
         getPost.forEach((getPost) => {
           const postData = getPost.data().posts;
           const data = doc(database, "contents", getPost.id);
+          // 게시글에 업데이트
           postData.find((postData) => {
             if(postData.userEmail === email) {
               postData.userImg = url
             }
           });
+          // 댓글에 업데이트
+          // 여기에 test 함수 옮겨오고, 한번에 update 시키기.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          // 그리고 프로필 이미지 삭제하면 댓글에도 업데이트.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
           updateDoc(data, {
             posts : postData
           })
         })
 
+        // 본인 프로필에 업로드
         emailUser.forEach((user) => {
           const data = doc(database, "users", user.id);
           updateDoc(data, {
@@ -88,6 +95,67 @@ const Home = () => {
       console.log('이미지 업로드 실패', error);
     }
   };
+
+  const test = async () => {
+    const post = await query(collection(database, 'contents'), where('name', '==', 'post'));
+    const getPost = await getDocs(post);
+
+    getPost.forEach((getPost) => {
+      const postData = getPost.data().posts;
+      console.log("포스트", postData)
+      postData.find((postData) => {
+        postData.comment.find((comment) => {
+          if(comment.email === email) {
+            console.log(comment);
+            // comment.userImg = url
+          }
+        })
+      })
+    })
+  }
+
+    // 프로필 이미지 삭제
+    const deleteImg = async () => {
+      try {
+        if (imageUrl) {
+          // 데이터 베이스에서 삭제
+          const user = await query(
+            collection(database, "users"),
+            where("email", "==", `${email}`)
+          );
+          const emailUser = await getDocs(user);
+          emailUser.forEach((user) => {
+            const data = doc(database, "users", user.id);
+  
+            updateDoc(data, {
+              profileImg: "",
+            });
+          });
+  
+          // 리덕스에서 삭제
+          dispatch(setProfileImg(""));
+  
+          // 본인 게시글 프로필 이미지 삭제
+          const post = await query(collection(database, 'contents'), where('name', '==', 'post'));
+          const getPost = await getDocs(post);
+  
+          getPost.forEach((getPost) => {
+            const postData = getPost.data().posts;
+            const data = doc(database, "contents", getPost.id);
+            postData.find((postData) => {
+              if(postData.userEmail === email) {
+                postData.userImg = ""
+              }
+            });
+            updateDoc(data, {
+              posts : postData
+            })
+          })
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
   // 유저의 데이터 가져오기 (프로필 사진, 좋아요 한 책, 구독한 유저)
   const getUserProfileImg = async () => {
@@ -112,32 +180,6 @@ const Home = () => {
       });
     } catch (error) {
       console.log("프로필 이미지 불러오기 실패", error);
-    }
-  };
-
-  // 프로필 이미지 삭제
-  const deleteImg = async () => {
-    try {
-      if (imageUrl) {
-        // 데이터 베이스에서 삭제
-        const user = await query(
-          collection(database, "users"),
-          where("email", "==", `${email}`)
-        );
-        const emailUser = await getDocs(user);
-        emailUser.forEach((user) => {
-          const data = doc(database, "users", user.id);
-
-          updateDoc(data, {
-            profileImg: "",
-          });
-        });
-
-        // 리덕스에서 삭제
-        dispatch(setProfileImg(""));
-      }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -181,6 +223,10 @@ const Home = () => {
               )}
             </div>
           </label>
+
+          <div onClick={() => {
+            test();
+          }} style={{cursor : 'pointer'}}>TEST</div>
 
           <div
             className="delete_img"

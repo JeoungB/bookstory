@@ -12,6 +12,7 @@ const Main = () => {
     const posts = useSelector((state) => state.posts);
     const name = useSelector((state) => state.userName);
     const imageUrl = useSelector((state) => state.userProfileImg);
+    const email = useSelector((state) => state.user);
     const [comment, setComment] = useState("");
     const [re, setRe] = useState(1);
     const footer = document.querySelector(".post_footer"); // top -num 늘어남
@@ -19,8 +20,6 @@ const Main = () => {
     const submitButton = useRef([]);
     const iconAreaRef = useRef([]);
     const currentDate = new Date();
-
-    console.log("게시글 정보", posts); 
 
     useEffect(() => {
         if(comment.value) {
@@ -60,6 +59,7 @@ const Main = () => {
         let commentDatas = {
             id : uniqId,
             name : name,
+            email : email,
             userImg : imageUrl,
             comment : comment.value,
             day : today
@@ -98,8 +98,6 @@ const Main = () => {
     }, [re]);
 
     // 파이어 베이스에서 게시글 정보 가져오기.
-    // 유저가 프로필 이미지 바꾸면 게시글중 해당 유저의 게시글을 찾아서 이미지 주소 넣어주기.!!!!!!!!!!!!!!!!!!!!!!!!
-    // 현재 유저 데이터에 프로필 주소는 입력되었지만 유저의 게시글 이미지에 업뎃 안되어있음.!!!!!!!!!!!!!!!!!!!!!!
     const getContents = async () => {
         try {
             const contents = await getDocs(collection(database, "contents"));
