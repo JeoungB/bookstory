@@ -36,13 +36,28 @@
     overflow: hidden;
     left: 50%;
     transform: translate(-50%, 0);
-    background-color: aqua;
 }
 
+/* 게시글 이미지 */
 .posts .img_content {
     width: 50%;
     height: 100%;
-    background-color: blueviolet;
+    overflow: hidden;
+    border-right: 1px solid rgba(202, 202, 202, 0.596);
+    background-color: rgb(255, 255, 255);
+}
+
+.posts .img_content .books {
+    position: relative;
+    width: 100%;
+    height: 550px;
+}
+
+.posts .img_content .books img {
+    width: 200px;
+    margin: 50% 0 0 50%;
+    transform: translate(-50%, -25%);
+    box-shadow: 1px 0px 7px 1px gray;
 }
 
 /*게시글 정보 전체*/
@@ -137,7 +152,13 @@
     border-radius: 30px;
     transform: translate(0, 10px);
     margin: 10px 0 10px 20px;
-    background-color: aqua;
+}
+
+.icon_comment img {
+    width: 35px;
+    height: 35px;
+    border: 2px solid rgb(237, 198, 6);
+    border-radius: 30px;
 }
 
 /* . . . */
@@ -179,7 +200,13 @@
     height: 35px;
     border-radius: 30px;
     transform: translate(0, 0);
-    background-color: aqua;
+}
+
+.comment_user-profile img {
+    width: 35px;
+    height: 35px;
+    border: 2px solid rgb(237, 198, 6);
+    border-radius: 30px;
 }
 
 /* 댓글 내용 */

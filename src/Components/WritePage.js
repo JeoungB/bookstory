@@ -13,7 +13,7 @@ import { submitPost } from "../firebase";
 const WritePage = () => {
 
   const titleRef = useRef("");
-  const [title, setTitle] = useState("");
+  const [tag, setTag] = useState("");
   const [content, setContent] = useState("");
   const items = useSelector((state) => state.selectBooks);
   const userEmail = useSelector((state) => state.user);
@@ -41,7 +41,7 @@ const WritePage = () => {
   useEffect(() => {
     // 새로고침 시 저장 여부 확인
     // 다시 테스트 공유 후 화면 끄려고 하면 팝업창 띄워짐 이슈
-    if(title || content) {
+    if(tag || content) {
       // history state는 현재 이동해온 페이지 정보가 stack으로 저장됨.
       // 뒤로가기 발생 시 stack의 가장 위에 있는 페이지로 이동하게됨.
       // window.history.pushState 를 사용해 최상위에 현재 페이지를 저장함.
@@ -53,7 +53,7 @@ const WritePage = () => {
     return () => {
       window.onbeforeunload = null;
     }
-  }, [title, content]);
+  }, [tag, content]);
 
   const cancelPage = () => {
     if(window.confirm("작성을 취소 하시겠습니까?")) {
@@ -66,7 +66,7 @@ const WritePage = () => {
   const submitContent = () => {
     let data = {
       id : uniqId,
-      title : title,
+      tag : '#' + tag,
       content : content,
       books : [...items],
       userEmail : userEmail,
@@ -76,6 +76,11 @@ const WritePage = () => {
     }
 
     submitPost(data);
+
+    setTimeout(() => {
+      alert('공유되었습니다.');
+      navigate('/');
+    }, 2000);
   }
 
   return (
@@ -117,8 +122,8 @@ const WritePage = () => {
         {/* 내용 작성 영역 */}
         <div className="inputs">
             <div className="input_title">
-            <input type="text" id="title" placeholder="" ref={titleRef} onChange={(e) => setTitle(e.target.value)}></input>
-            <label className="title_label" htmlFor="title">Title</label>
+            <input type="text" id="title" placeholder="" ref={titleRef} onChange={(e) => setTag(e.target.value)}></input>
+            <label className="title_label" htmlFor="title">Tag</label>
             </div>
             <div className="content_container">
             <textarea className="content" placeholder="글 작성" spellCheck="false" onChange={(e) => setContent(e.target.value)}></textarea>

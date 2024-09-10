@@ -68,14 +68,22 @@ const Home = () => {
           const postData = getPost.data().posts;
           const data = doc(database, "contents", getPost.id);
           // 게시글에 업데이트
-          postData.find((postData) => {
-            if(postData.userEmail === email) {
-              postData.userImg = url
-            }
-          });
-          // 댓글에 업데이트
-          // 여기에 test 함수 옮겨오고, 한번에 update 시키기.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          // 그리고 프로필 이미지 삭제하면 댓글에도 업데이트.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          if(postData) {
+            postData.find((postData) => {
+              if(postData.userEmail === email) {
+                postData.userImg = url
+              }
+  
+              // 댓글에 업데이트
+              if(postData.comment.length !== 0) {
+                postData.comment.find((comment) => {
+                  if(comment.email === email) {
+                    comment.userImg = url
+                  }
+                })
+              }
+            });
+          }
 
           updateDoc(data, {
             posts : postData
@@ -95,24 +103,6 @@ const Home = () => {
       console.log('이미지 업로드 실패', error);
     }
   };
-
-  const test = async () => {
-    const post = await query(collection(database, 'contents'), where('name', '==', 'post'));
-    const getPost = await getDocs(post);
-
-    getPost.forEach((getPost) => {
-      const postData = getPost.data().posts;
-      console.log("포스트", postData)
-      postData.find((postData) => {
-        postData.comment.find((comment) => {
-          if(comment.email === email) {
-            console.log(comment);
-            // comment.userImg = url
-          }
-        })
-      })
-    })
-  }
 
     // 프로필 이미지 삭제
     const deleteImg = async () => {
@@ -135,18 +125,28 @@ const Home = () => {
           // 리덕스에서 삭제
           dispatch(setProfileImg(""));
   
-          // 본인 게시글 프로필 이미지 삭제
+          // 본인 게시글 및 댓글 프로필 이미지 삭제
           const post = await query(collection(database, 'contents'), where('name', '==', 'post'));
           const getPost = await getDocs(post);
   
           getPost.forEach((getPost) => {
             const postData = getPost.data().posts;
             const data = doc(database, "contents", getPost.id);
-            postData.find((postData) => {
-              if(postData.userEmail === email) {
-                postData.userImg = ""
-              }
-            });
+            if(postData) {
+              postData.find((postData) => {
+                if(postData.userEmail === email) {
+                  postData.userImg = "";
+                }
+  
+                if(postData.comment.length !== 0) {
+                  postData.comment.find((comment) => {
+                    if(comment.email === email) {
+                      comment.userImg = "";
+                    }
+                  })
+                }
+              });
+            }
             updateDoc(data, {
               posts : postData
             })
@@ -223,10 +223,6 @@ const Home = () => {
               )}
             </div>
           </label>
-
-          <div onClick={() => {
-            test();
-          }} style={{cursor : 'pointer'}}>TEST</div>
 
           <div
             className="delete_img"
