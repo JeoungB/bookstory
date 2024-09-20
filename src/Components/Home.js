@@ -177,11 +177,29 @@ const Home = () => {
         if (user.data().profileImg) {
           dispatch(setProfileImg(user.data().profileImg));
         }
+
+        getUserPosts();
       });
     } catch (error) {
       console.log("프로필 이미지 불러오기 실패", error);
     }
   };
+
+  // 유저의 게시글 가져오기
+  // 1. 해당 유저의 게시글을 추출해서 리덕스나 State에 뿌려 페이지에 보이게한다.
+  // 2. 제목과 함께 보이게 한다.
+  // 3. 클릭하면 새로운 페이지로 이동하며 클릭한 게시물을 볼 수 있게 한다.
+  // 4. 게시물 수정 및 삭제 가능하게 한다.
+  const getUserPosts = async () => {
+    try{
+      const posts = await getDocs(collection(database, 'contents'));
+      posts.forEach((posts) => {
+        console.log('가져온 posts', posts.data().posts);
+      })
+    } catch (error) {
+      console.log("유저 게시글 가져오기 실패", error);
+    }
+  }
 
   menus.forEach((menu) => menu.addEventListener("click", (e) => moveLine(e)));
 
